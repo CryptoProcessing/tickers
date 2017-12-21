@@ -5,7 +5,7 @@ class SchedulerConfig(object):
             'func': 'controllers.tasks:ticker_job',
             'trigger': {
                 'type': 'interval',
-                'seconds': 120
+                'seconds': 300
             }
         }
 

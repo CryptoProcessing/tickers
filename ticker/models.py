@@ -1,3 +1,4 @@
+import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
@@ -53,3 +54,7 @@ class Ticker(db.Model):
     bid = db.Column(db.Float(precision=32))
     ask = db.Column(db.Float(precision=32))
     market_id = db.Column(db.Integer, db.ForeignKey('markets.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    def __repr__(self):
+        return '{} price - {}, market - {}, date - {}'.format(self.pair, self.bid, self.market, self.date)
