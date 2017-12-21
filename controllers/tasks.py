@@ -14,14 +14,13 @@ MAP_PROVIDER = {
 }
 
 
-@celery.task()
+# @celery.task()
 def save_ticker(mp):
     provider = InfoProvider(resource=mp)
     ticker_data = provider.get_tickers()
-
+    # current_app.logger.debug('New record in db {}'.format(mp))
     # with app.app_context():
     to_db(market=mp, data=ticker_data)
-    current_app.logger.debug('New record in db {}'.format(mp))
 
 
 def to_db(market, data):
