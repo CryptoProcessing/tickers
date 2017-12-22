@@ -1,13 +1,13 @@
-from flask import request, make_response, jsonify, abort
+import datetime
+from flask import request, make_response, jsonify
 from flask.views import MethodView
-from flask import current_app
-from ticker.models import Ticker, Pair, Market
+from ticker.models import Ticker, Pair
 from sqlalchemy.sql import func
 
 
 class PriceApi(MethodView):
     """ Операции с аккаунтом """
-    def query(self):
+    def query(self, ts=None, pair=None):
         """
         SELECT pairs.name AS pairs_name, avg(anon_1.tickers_bid) AS avg
         FROM
@@ -27,10 +27,21 @@ class PriceApi(MethodView):
 
         :return:
         """
+        if ts:
+            date = datetime.datetime.utcfromtimestamp(float(ts)).strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            date = datetime.datetime.now()
+        if pair:
+            pair_data = Pair.query.filter_by(name=pair).all()
+        else:
+            pair_data = Pair.query.all()
 
+        pairids = [p.id for p in pair_data]
         max_ids = Ticker \
             .query \
             .with_entities(func.max(Ticker.id).label('max')) \
+            .filter(Ticker.created_at < date) \
+            .filter(Ticker.pair.has(Pair.id.in_(pairids)))\
             .group_by(Ticker.market_id, Ticker.pair_id)
 
         result = Ticker \
@@ -52,7 +63,9 @@ class PriceApi(MethodView):
         :return:
         """
         query_string = request.args
+        ts = query_string.get('ts')
+        pair = query_string.get('pair')
 
-        result = self.query()
+        result = self.query(ts=ts, pair=pair)
 
         return make_response(jsonify(dict(result))), 200

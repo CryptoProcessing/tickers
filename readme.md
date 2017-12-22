@@ -36,3 +36,9 @@ python manage.py db upgrade
 ```bash
 celery -A ticker worker --loglevel=info
 ```
+
+## Usage
+```html
+/api/v1/data/pricelast?pair=BTC:USD&ts=1513888428
+```
+parameters are optional
