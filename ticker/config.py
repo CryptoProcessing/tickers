@@ -31,6 +31,7 @@ class Config(object):
 
 
 class ProdConfig(Config, SchedulerConfig):
+    DEBUG = False
     MYSQL = {
         'user': 'tickers',
         'pw': 'tickers',

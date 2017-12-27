@@ -32,9 +32,25 @@ python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 ```
-## run celery worker
+## start gunicorn
+если еще не установлен supervisor то
 ```bash
-celery -A ticker worker --loglevel=info
+apt-get install supervisor
+```
+
+скопровать в /etc/supervisor/conf.d/
+конфиг Gunicorn из папки extra/etc/supervisor/conf.d/komtrans.conf
+
+команды для supervisor
+```bash
+supervisorctl reread
+supervisorctl update
+supervisorctl status tickers
+supervisor restart tickers
+```
+проверка
+ps xa | grep gunicorn
+
 ```
 
 ## Usage
