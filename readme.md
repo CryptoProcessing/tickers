@@ -46,7 +46,7 @@ apt-get install supervisor
 supervisorctl reread
 supervisorctl update
 supervisorctl status tickers
-supervisor restart tickers
+supervisorctl restart tickers
 ```
 проверка
 ps xa | grep gunicorn
