@@ -39,7 +39,7 @@ apt-get install supervisor
 ```
 
 скопровать в /etc/supervisor/conf.d/
-конфиг Gunicorn из папки extra/etc/supervisor/conf.d/komtrans.conf
+конфиг Gunicorn из папки extra/etc/supervisor/conf.d/tickers.conf
 
 команды для supervisor
 ```bash

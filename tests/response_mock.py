@@ -1,5 +1,39 @@
 import datetime
 
+
+######### bitfinex #########
+bitfinex_response_btc_usd = {
+    "mid": "13132.0",
+    "bid": "13130.0",
+    "ask": "13134.0",
+    "last_price": "13124.12229096",
+    "low": "11600.0",
+    "high": "14999.0",
+    "volume": "75271.49638604",
+    "timestamp": "1514127458.4666939"
+}
+bitfinex_response_eth_btc = {
+    "mid": "0.0513485",
+    "bid": "0.051348",
+    "ask": "0.051349",
+    "last_price": "0.051349",
+    "low": "0.049047",
+    "high": "0.051584",
+    "volume": "74071.6467398",
+    "timestamp": "1514558930.472265"
+}
+
+
+bitfinex_expected_response =[
+    {'fund_id': 'BTC:USD',
+     'date':  datetime.datetime(2017, 12, 24, 17, 57, 38, 466694),
+     'ask': '13134.0',
+     'bid': '13130.0'},
+    {'fund_id': 'ETH:BTC',
+     'date': datetime.datetime(2017, 12, 29, 17, 48, 50, 472265),
+     'bid': '0.051348',
+     'ask': '0.051349'}
+]
 ######### GDAX #########
 
 gdax_response_eth_btc = {

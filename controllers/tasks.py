@@ -2,6 +2,7 @@ import datetime
 from flask import current_app
 from controllers.therocktrading import Therocktrading
 from controllers.gdax import Gdax
+from controllers.bitfinex import Bitfinex
 from ticker.extensions import celery
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 
@@ -11,6 +12,7 @@ from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 MAP_PROVIDER = {
     'therocktrading.com': Therocktrading(),
     'GDAX': Gdax(),
+    'bitfinex.com': Bitfinex()
 }
 
 

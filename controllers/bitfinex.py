@@ -1,27 +1,28 @@
 from .base_ticker import BaseTicker
 import requests
+import datetime
 
 
-class Gdax(BaseTicker):
+class Bitfinex(BaseTicker):
     """
-    https://api.gdax.com/products/BTC-USD/ticker
+    https://api.bitfinex.com/v1/pubticker/btcusd
     """
     date_fmt = '%Y-%m-%dT%H:%M%S.%fZ'
 
     fund_ids = (
-        ('BTC-USD', 'BTC:USD'),
-        ('ETH-BTC', 'ETH:BTC'),
-        ('ETH-USD', 'ETH:USD'),
+        ('btcusd', 'BTC:USD'),
+        ('ethbtc', 'ETH:BTC'),
+        ('ethusd', 'ETH:USD')
     )
 
     def __init__(self, fund_ids=fund_ids):
-        super(Gdax, self).__init__()
+        super(Bitfinex, self).__init__()
         self.fund_id = fund_ids
 
     def get_ticker_info(self):
         data = []
         for fund in self.fund_ids:
-            url = 'https://api.gdax.com/products/{}/ticker'.format(fund[0])
+            url = 'https://api.bitfinex.com/v1/pubticker/{}'.format(fund[0])
 
             req = requests.get(url)
             req_json = req.json()
@@ -32,7 +33,7 @@ class Gdax(BaseTicker):
             fund_data = {
                 'ask': req_json['ask'],
                 'bid': req_json['bid'],
-                'date': self.str_to_date(req_json['time']),
+                'date': self.str_to_date(req_json['timestamp']),
                 'fund_id': self.map_fund(fund[0]),
             }
 
@@ -40,6 +41,9 @@ class Gdax(BaseTicker):
         return data
 
     def str_to_date(self, strdate):
-        return super(Gdax, self).str_to_date(strdate)
+        try:
+            return datetime.datetime.fromtimestamp(float(strdate))
+        except ValueError:
+            return datetime.datetime.now()
 
 
