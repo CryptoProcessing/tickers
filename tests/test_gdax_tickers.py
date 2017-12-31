@@ -1,7 +1,7 @@
 import unittest
 from controllers import gdax
 from unittest.mock import patch
-from tests.response_mock import gdax_response_btc_usd, gdax_response_eth_btc, gdax_expected_response
+from tests.response_mock.response_mock import gdax_response_btc_usd, gdax_response_eth_btc, gdax_expected_response
 import datetime
 
 

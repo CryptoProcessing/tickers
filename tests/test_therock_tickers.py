@@ -1,7 +1,7 @@
 import unittest
 from controllers import therocktrading
 from unittest.mock import patch
-from tests.response_mock import therock_response, therock_expected_response
+from tests.response_mock.response_mock import therock_response, therock_expected_response
 import datetime
 
 
