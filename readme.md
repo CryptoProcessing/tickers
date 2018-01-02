@@ -51,10 +51,9 @@ supervisorctl restart tickers
 проверка
 ps xa | grep gunicorn
 
-```
 
 ## Usage
 ```html
-/api/v1/data/pricelast?pair=BTC:USD&ts=1513888428
+/api/v1/data/price?pair=BTC:USD&ts=1513888428
 ```
 parameters are optional

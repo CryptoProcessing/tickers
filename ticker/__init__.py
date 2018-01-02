@@ -19,12 +19,12 @@ def create_app(object_name):
     auth_blueprint = Blueprint('auth', __name__)
 
     # define the API resources
-    pricelast_view = PriceApi.as_view('last_price')
+    price_view = PriceApi.as_view('price')
 
     # add Rules for API Endpoints
     auth_blueprint.add_url_rule(
-        '/data/pricelast',
-        view_func=pricelast_view,
+        '/data/price',
+        view_func=price_view,
         methods=['GET']
     )
 
