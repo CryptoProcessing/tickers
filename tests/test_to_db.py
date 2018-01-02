@@ -1,10 +1,8 @@
 import unittest
-import datetime
-from ticker.models import db
-from ticker.models import Ticker, Pair, Market
+from ticker.models import Pair, Market
 from controllers.tasks import to_db
 from tests.base import BaseTestCase
-from tests.response_mock import therock_expected_response
+from tests.response_mock.response_mock import therock_expected_response
 
 
 class TestToDb(BaseTestCase):

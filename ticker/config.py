@@ -32,6 +32,7 @@ class Config(object):
 
 class ProdConfig(Config, SchedulerConfig):
     DEBUG = False
+    APP_SCHEDULER_START = True
     MYSQL = {
         'user': 'tickers',
         'pw': 'tickers',
@@ -46,6 +47,7 @@ class ProdConfig(Config, SchedulerConfig):
 
 class DevConfig(Config, SchedulerConfig):
     DEBUG = False
+    APP_SCHEDULER_START = True
     MYSQL = {
         'user': 'tickers',
         'pw': 'tickers',
@@ -60,6 +62,7 @@ class DevConfig(Config, SchedulerConfig):
 
 class TestConfig(Config):
     DEBUG = True
+    APP_SCHEDULER_START = False
     MYSQL = {
         'user': 'tickers',
         'pw': 'tickers',

@@ -13,8 +13,9 @@ def create_app(object_name):
     db.init_app(app)
 
     # start scheduler
-    app_scheduler.init_app(app)
-    app_scheduler.start()
+    if app.config['APP_SCHEDULER_START']:
+        app_scheduler.init_app(app)
+        app_scheduler.start()
 
     auth_blueprint = Blueprint('auth', __name__)
 
