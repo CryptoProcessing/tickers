@@ -1,2 +1,2 @@
 from ticker import create_app
-app = create_app("ticker.config.ProdConfig")
+app = create_app("config.ProdConfig")

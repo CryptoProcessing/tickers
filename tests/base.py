@@ -9,7 +9,7 @@ class BaseTestCase(TestCase):
 
     def create_app(self):
         env = os.environ.get('TICKER_ENV', 'test')
-        app = create_app('ticker.config.%sConfig' % env.capitalize())
+        app = create_app('config.%sConfig' % env.capitalize())
         return app
 
     def setUp(self):

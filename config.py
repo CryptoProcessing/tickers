@@ -1,3 +1,7 @@
+import os
+import raven
+
+
 class SchedulerConfig(object):
     JOBS = [
         {
@@ -5,7 +9,7 @@ class SchedulerConfig(object):
             'func': 'controllers.tasks:ticker_job',
             'trigger': {
                 'type': 'interval',
-                'seconds': 240
+                'seconds': 300
             }
         }
 
@@ -43,6 +47,11 @@ class ProdConfig(Config, SchedulerConfig):
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % MYSQL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SENTRY_CONFIG = {
+        'dsn': 'https://6eed6a3f6aab4317b6337a43f589287f:4ed9a516518f42b2ae7434988853d15d@sentry.io/265553',
+        'include_paths': ['Tickers'],
+        'release': raven.fetch_git_sha(os.path.dirname(__file__)),
+    }
 
 
 class DevConfig(Config, SchedulerConfig):

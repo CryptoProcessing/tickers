@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint
 from ticker.models import db
-from ticker.extensions import rest_api, app_scheduler, celery
+from ticker.extensions import rest_api, app_scheduler, celery, sentry
 from controllers.api_controller import PriceApi
 
 
@@ -16,6 +16,8 @@ def create_app(object_name):
     if app.config['APP_SCHEDULER_START']:
         app_scheduler.init_app(app)
         app_scheduler.start()
+
+    sentry.init_app(app)
 
     auth_blueprint = Blueprint('auth', __name__)
 

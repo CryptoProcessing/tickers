@@ -4,9 +4,8 @@ from controllers.therocktrading import Therocktrading
 from controllers.gdax import Gdax
 from controllers.bitfinex import Bitfinex
 from controllers.cex_io import Cexio
-from ticker.extensions import celery
+from ticker.extensions import celery, sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
-
 
 #  add all tickers classes
 
@@ -21,10 +20,12 @@ MAP_PROVIDER = {
 # @celery.task()
 def save_ticker(mp):
     provider = InfoProvider(resource=mp)
-    ticker_data = provider.get_tickers()
-    # current_app.logger.debug('New record in db {}'.format(mp))
-    # with app.app_context():
-    to_db(market=mp, data=ticker_data)
+    try:
+        ticker_data = provider.get_tickers()
+        to_db(market=mp, data=ticker_data)
+    except Exception as e:
+        # current_app.logger.warning('Error tickers info server {} {}'.format(self.resource, e))
+        sentry.captureException()
 
 
 def to_db(market, data):
@@ -39,8 +40,8 @@ def to_db(market, data):
                 bid=d['bid'],
                 ask=d['ask'],
                 market=market_db
-
             )
+
             db.session.add(ticker)
             db.session.commit()
 
@@ -66,10 +67,11 @@ class InfoProvider:
 
     def get_tickers(self):
         factory = self._connect_to(self.resource)
-        try:
-            response = factory.get_ticker_info()
-            return response
+        response = factory.get_ticker_info()
 
-        except Exception as e:
-            current_app.logger.warning('Error tickers info server {} {}'.format(self.resource, e))
+        return response
+
+
+
+
 

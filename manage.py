@@ -10,7 +10,7 @@ from ticker.models import db
 
 # default to dev config
 env = os.environ.get('TICKER_ENV', 'dev')
-app = create_app('ticker.config.%sConfig' % env.capitalize())
+app = create_app('config.%sConfig' % env.capitalize())
 
 migrate = Migrate(app, db)
 
