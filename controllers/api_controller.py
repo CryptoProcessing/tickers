@@ -31,9 +31,13 @@ class PriceApi(MethodView):
         :return:
         """
         if ts:
-            date = datetime.datetime.utcfromtimestamp(float(ts)).strftime('%Y-%m-%dT%H:%M:%S')
+            date = datetime.datetime.utcfromtimestamp(float(ts)) #.strftime('%Y-%m-%dT%H:%M:%S')
         else:
             date = datetime.datetime.now()
+
+        # ограничение снизу
+        min_date = date - datetime.timedelta(hours=5)
+
         if pair:
             pair_data = Pair.query.filter_by(name=pair).all()
         else:
@@ -43,7 +47,7 @@ class PriceApi(MethodView):
         max_ids = Ticker \
             .query \
             .with_entities(func.max(Ticker.id).label('max')) \
-            .filter(Ticker.created_at < date) \
+            .filter(Ticker.created_at < date, Ticker.created_at > min_date) \
             .filter(Ticker.pair.has(Pair.id.in_(pairids)))\
             .group_by(Ticker.market_id, Ticker.pair_id)
 
