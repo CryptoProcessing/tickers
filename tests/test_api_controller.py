@@ -1,6 +1,7 @@
 import unittest
 import datetime
 import time
+import json
 from ticker.models import db
 from ticker.models import Ticker, Pair, Market
 from tests.base import BaseTestCase
@@ -163,3 +164,24 @@ class TestApiController(BaseTestCase):
         api = PriceApi()
         result = api.query(pair='BTC:USD', ts=self.midle_time)
         self.assertEqual(result, [('BTC:USD', 312.50)])
+
+    def test_get_pair_params_not_ok(self):
+        api = PriceApi()
+        result = api.query(pair='BBB:UUU')
+        self.assertEqual(result, [])
+
+    def test_get_pair_market_params_ok(self):
+        api = PriceApi()
+        result = api.query(pair='BTC:USD', market=2)
+        result2 = api.query(pair='ETH:USD', market=2)
+        self.assertEqual(result, [('BTC:USD', 600.0)])
+        self.assertEqual(result2, [('ETH:USD', 200.0)])
+
+    def test_get_markets_list(self):
+
+        response = self.client.get(
+            '/api/v1/data/markets'
+        )
+
+        data = json.loads(response.data.decode())
+        self.assertEqual(data, [{'name': 'Best market in the world', 'id': 1}, {'name': '2nd best market in the world', 'id': 2}])
