@@ -4,6 +4,7 @@ from controllers.therocktrading import Therocktrading
 from controllers.gdax import Gdax
 from controllers.bitfinex import Bitfinex
 from controllers.cex_io import Cexio
+from controllers.bitsmap_net import Bitsmap
 from ticker.extensions import celery, sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 
@@ -13,7 +14,8 @@ MAP_PROVIDER = {
     'therocktrading.com': Therocktrading(),
     'GDAX': Gdax(),
     'bitfinex.com': Bitfinex(),
-    'cex.io': Cexio()
+    'cex.io': Cexio(),
+    'bitsmap.net': Bitsmap(),
 }
 
 
