@@ -6,6 +6,7 @@ from ticker.models import db
 from ticker.models import Ticker, Pair, Market
 from tests.base import BaseTestCase
 from controllers.api_controller import PriceApi
+from controllers.base_ticker import BaseTicker
 
 
 class TestApiController(BaseTestCase):

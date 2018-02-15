@@ -6,6 +6,7 @@ from controllers.bitfinex import Bitfinex
 from controllers.cex_io import Cexio
 from controllers.bitsmap_net import Bitsmap
 from controllers.itbit_com import Itbit
+from controllers.bisq_network import Bisq
 from ticker.extensions import celery, sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 
@@ -17,7 +18,8 @@ MAP_PROVIDER = {
     'bitfinex.com': Bitfinex(),
     'cex.io': Cexio(),
     'bitsmap.net': Bitsmap(),
-    'itbit.com': Itbit()
+    'itbit.com': Itbit(),
+    'bisq.network': Bisq()
 }
 
 
