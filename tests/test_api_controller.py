@@ -177,6 +177,15 @@ class TestApiController(BaseTestCase):
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
+    def test_response(self):
+
+        response = self.client.get(
+            '/api/v1/data/price',
+            query_string=dict(pair='BTC:USD', ts=self.midle_time),
+        )
+        data_register = json.loads(response.data.decode())
+        self.assertEqual(data_register, {'BTC:USD': 312.50})
+
     def test_get_markets_list(self):
 
         response = self.client.get(

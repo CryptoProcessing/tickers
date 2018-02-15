@@ -5,6 +5,7 @@ from controllers.gdax import Gdax
 from controllers.bitfinex import Bitfinex
 from controllers.cex_io import Cexio
 from controllers.bitsmap_net import Bitsmap
+from controllers.itbit_com import Itbit
 from ticker.extensions import celery, sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 
@@ -16,6 +17,7 @@ MAP_PROVIDER = {
     'bitfinex.com': Bitfinex(),
     'cex.io': Cexio(),
     'bitsmap.net': Bitsmap(),
+    'itbit.com': Itbit()
 }
 
 
