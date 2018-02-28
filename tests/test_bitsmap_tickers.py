@@ -45,29 +45,29 @@ def mocked_requests_get_empty__dict_resp(*args, **kwargs):
 
 
 class TestGdax(unittest.TestCase):
-
-    @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get)
-    def test_bitsmap_net(self, _):
-        bitsmap_net_resp = bitsmap_net.Bitsmap(fund_ids=(
+    def setUp(self):
+        self.bitsmap_net_resp = bitsmap_net.Bitsmap(fund_ids=(
             ('btcusd', 'BTC:USD'),
             ('ethusd', 'ETH:USD'),
         ))
-        response = bitsmap_net_resp.get_ticker_info()
+
+    @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get)
+    def test_bitsmap_net(self, _):
+
+        response = self.bitsmap_net_resp.get_ticker_info()
 
         self.assertEqual(response, bitsmap_expected_response)
 
     @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_bitsmap_net_resp_none(self, _):
-        bitsmap_net_resp = bitsmap_net.Bitsmap()
-        response = bitsmap_net_resp.get_ticker_info()
+        response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
     @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_bitsmap_net_empty_dict(self, _):
-        bitsmap_net_resp = bitsmap_net.Bitsmap()
-        response = bitsmap_net_resp.get_ticker_info()
+        response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)

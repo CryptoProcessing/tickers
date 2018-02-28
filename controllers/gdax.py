@@ -8,10 +8,13 @@ class Gdax(BaseTicker):
     """
     date_fmt = '%Y-%m-%dT%H:%M%S.%fZ'
 
+    # GGT  is token = 1$
     fund_ids = (
         ('BTC-USD', 'BTC:USD'),
+        ('BTC-USD', 'BTC:GGT'),
         ('ETH-BTC', 'ETH:BTC'),
         ('ETH-USD', 'ETH:USD'),
+        ('ETH-USD', 'ETH:GGT'),
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -20,7 +23,7 @@ class Gdax(BaseTicker):
 
     def get_ticker_info(self):
         data = []
-        for fund in self.fund_ids:
+        for fund in self.fund_id:
             url = 'https://api.gdax.com/products/{}/ticker'.format(fund[0])
 
             req = requests.get(url)
@@ -33,7 +36,7 @@ class Gdax(BaseTicker):
                 'ask': req_json['ask'],
                 'bid': req_json['bid'],
                 'date': self.str_to_date(req_json['time']),
-                'fund_id': self.map_fund(fund[0]),
+                'fund_id': fund[1],
             }
 
             data.append(fund_data)

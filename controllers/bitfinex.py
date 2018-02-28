@@ -9,10 +9,13 @@ class Bitfinex(BaseTicker):
     """
     date_fmt = '%Y-%m-%dT%H:%M%S.%fZ'
 
+    # GGT  is token = 1$
     fund_ids = (
         ('btcusd', 'BTC:USD'),
         ('ethbtc', 'ETH:BTC'),
-        ('ethusd', 'ETH:USD')
+        ('btcusd', 'BTC:GGT'),
+        ('ethusd', 'ETH:USD'),
+        ('ethusd', 'ETH:GGT')
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -21,7 +24,7 @@ class Bitfinex(BaseTicker):
 
     def get_ticker_info(self):
         data = []
-        for fund in self.fund_ids:
+        for fund in self.fund_id:
             url = 'https://api.bitfinex.com/v1/pubticker/{}'.format(fund[0])
 
             req = requests.get(url)
@@ -34,7 +37,7 @@ class Bitfinex(BaseTicker):
                 'ask': req_json['ask'],
                 'bid': req_json['bid'],
                 'date': self.str_to_date(req_json['timestamp']),
-                'fund_id': self.map_fund(fund[0]),
+                'fund_id': fund[1],
             }
 
             data.append(fund_data)

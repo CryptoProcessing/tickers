@@ -9,8 +9,10 @@ class Bisq(BaseTicker):
     """
     date_fmt = ''
 
+    # GGT  is token = 1$
     fund_ids = (
         ('btc_usd', 'BTC:USD'),
+        ('btc_usd', 'BTC:GGT'),
         ('eth_btc', 'ETH:BTC')
     )
 
@@ -20,7 +22,7 @@ class Bisq(BaseTicker):
 
     def get_ticker_info(self):
         data = []
-        for fund in self.fund_ids:
+        for fund in self.fund_id:
             url = 'https://markets.bisq.network/api/ticker?market={}'.format(fund[0])
 
             req = requests.get(url)
@@ -33,7 +35,7 @@ class Bisq(BaseTicker):
                 'ask': float(req_json[0]['last']),
                 'bid': float(req_json[0]['last']),
                 'date': self.str_to_date(req_json[0].get('timestamp')),
-                'fund_id': self.map_fund(fund[0]),
+                'fund_id': fund[1],
             }
 
             data.append(fund_data)

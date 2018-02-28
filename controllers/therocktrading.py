@@ -6,8 +6,12 @@ class Therocktrading(BaseTicker):
     """
     https://api.therocktrading.com/v1/funds/tickers
     """
+
+    # GGT  is token = 1$
     fund_ids = (
         ('BTCUSD', 'BTC:USD'),
+        ('BTCUSD', 'BTC:GGT'),
+
         ('ETHBTC', 'ETH:BTC'),
         ('ETHEUR', 'ETH:EUR')
     )
@@ -24,17 +28,20 @@ class Therocktrading(BaseTicker):
 
         if not req_json:
             return []
+        data = []
+        list_fund_id = [(f_id[0], f_id[1]) for f_id in self.fund_id]
 
-        list_fund_id = [f_id[0] for f_id in self.fund_id]
-        data =[
-            {'ask': f['ask'],
-             'bid': f['bid'],
-             'date': self.str_to_date(f['date']),
-             'fund_id':self.map_fund(f['fund_id']),
-               }
-            for f in req_json['tickers'] if f['fund_id'] in list_fund_id
-        ]
+        for lf in list_fund_id:
+            fund_data = [
+                {'ask': f['ask'],
+                 'bid': f['bid'],
+                 'date': self.str_to_date(f['date']),
+                 'fund_id':lf[1],
+                   }
+                for f in req_json['tickers'] if f['fund_id'] in [lf[0]]
+            ]
 
+            data.extend(fund_data)
         return data
     
     def str_to_date(self, strdate):

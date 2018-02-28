@@ -42,30 +42,30 @@ def mocked_bitfinex_requests_get_empty__dict_resp(*args, **kwargs):
 
 
 class Testbitfinex(unittest.TestCase):
+    def setUp(self):
+        self.bitfinex_resp = bitfinex.Bitfinex(fund_ids=(
+            ('btcusd', 'BTC:USD'),
+            ('ethbtc', 'ETH:BTC'),
+        ))
 
     @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get)
     def test_bitfinex(self, _):
 
-        bitfinex_resp = bitfinex.Bitfinex(fund_ids=(
-            ('btcusd', 'BTC:USD'),
-            ('ethbtc', 'ETH:BTC'),
-        ))
-        response = bitfinex_resp.get_ticker_info()
+
+        response = self.bitfinex_resp.get_ticker_info()
 
         self.assertEqual(response, bitfinex_expected_response)
 
     @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_none_resp)
     def test_bitfinex_resp_none(self, _):
-        bitfinex_resp = bitfinex.Bitfinex()
-        response = bitfinex_resp.get_ticker_info()
+        response = self.bitfinex_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
     @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_empty__dict_resp)
     def test_bitfinex_empty_dict(self, _):
-        bitfinex_resp = bitfinex.Bitfinex()
-        response = bitfinex_resp.get_ticker_info()
+        response = self.bitfinex_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)

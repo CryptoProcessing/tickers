@@ -42,30 +42,28 @@ def mocked_gdax_requests_get_empty__dict_resp(*args, **kwargs):
 
 
 class TestGdax(unittest.TestCase):
-
-    @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get)
-    def test_gdax(self, _):
-
-        gdax_resp = gdax.Gdax(fund_ids=(
+    def setUp(self):
+        self.gdax_resp = gdax.Gdax(fund_ids=(
             ('BTC-USD', 'BTC:USD'),
             ('ETH-BTC', 'ETH:BTC'),
         ))
-        response = gdax_resp.get_ticker_info()
+
+    @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get)
+    def test_gdax(self, _):
+        response = self.gdax_resp.get_ticker_info()
 
         self.assertEqual(response, gdax_expected_response)
 
     @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get_none_resp)
     def test_gdax_resp_none(self, _):
-        gdax_resp = gdax.Gdax()
-        response = gdax_resp.get_ticker_info()
+        response = self.gdax_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
     @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get_empty__dict_resp)
     def test_gdax_empty_dict(self, _):
-        gdax_resp = gdax.Gdax()
-        response = gdax_resp.get_ticker_info()
+        response = self.gdax_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)

@@ -57,6 +57,12 @@ dtm = datetime.datetime.now()
 
 
 class TestBisq(unittest.TestCase):
+    def setUp(self):
+        self.bitsmap_net_resp = bisq_network.Bisq(fund_ids=(
+            ('btc_usd', 'BTC:USD'),
+            ('eth_btc', 'ETH:BTC'),
+        ))
+
     @patch('controllers.base_ticker.datetime', Mock(now=lambda: dtm))
     @patch('controllers.bisq_network.requests.get', side_effect=mocked_requests_get)
     def test_bitsmap_net(self, _):
@@ -71,26 +77,20 @@ class TestBisq(unittest.TestCase):
              'fund_id': 'ETH:BTC'}
         ]
 
-        bitsmap_net_resp = bisq_network.Bisq(fund_ids=(
-            ('btc_usd', 'BTC:USD'),
-            ('eth_btc', 'ETH:BTC'),
-        ))
-        response = bitsmap_net_resp.get_ticker_info()
+        response = self.bitsmap_net_resp.get_ticker_info()
 
         self.assertEqual(response, expected_response)
 
     @patch('controllers.bisq_network.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_bitsmap_net_resp_none(self, _):
-        bitsmap_net_resp = bisq_network.Bisq()
-        response = bitsmap_net_resp.get_ticker_info()
+        response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
     @patch('controllers.bisq_network.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_bitsmap_net_empty_dict(self, _):
-        bitsmap_net_resp = bisq_network.Bisq()
-        response = bitsmap_net_resp.get_ticker_info()
+        response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
