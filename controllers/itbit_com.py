@@ -12,6 +12,7 @@ class Itbit(BaseTicker):
 
     fund_ids = (
         ('XBTUSD', 'BTC:USD'),
+        ('XBTUSD', 'BTC:GGT'),
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -20,7 +21,7 @@ class Itbit(BaseTicker):
 
     def get_ticker_info(self):
         data = []
-        for fund in self.fund_ids:
+        for fund in self.fund_id:
             url = 'https://api.itbit.com/v1/markets/XBTUSD/ticker'
 
             req = requests.get(url)
@@ -33,7 +34,7 @@ class Itbit(BaseTicker):
                 'ask': float(req_json['ask']),
                 'bid': float(req_json['bid']),
                 'date': self.str_to_date(req_json['serverTimeUTC']),
-                'fund_id': self.map_fund(fund[0]),
+                'fund_id': fund[1],
             }
 
             data.append(fund_data)
