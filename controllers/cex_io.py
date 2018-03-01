@@ -39,7 +39,7 @@ class Cexio(BaseTicker):
                {'ask': f['ask'],
                 'bid': f['bid'],
                 'date': self.str_to_date(f['timestamp']),
-                'fund_id': self.map_fund(f['pair']),
+                'fund_id': lf[1],
                 }
                for f in req_json['data'] if f['pair'] in [lf[0]]
            ]
