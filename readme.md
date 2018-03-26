@@ -1,7 +1,20 @@
-Create DB and user
+
+```commandline
+virtualenv -p python3 venv
+source venv/bin/activate
+
+рекомендуется
+sudo apt-get install python3.5-dev
+
+pip3 install -r requirements.txt
+
+```
+
+## Create DB and user
 ```bash
 mysql -u root -p
 ```
+
 
 ```mysql
 CREATE DATABASE tickers;
@@ -30,7 +43,6 @@ python manage.py db init
 при каждом изменении
 ```bash
 python manage.py db migrate
-python manage.py db upgrade
 ```
 ## start gunicorn
 если еще не установлен supervisor то
@@ -51,8 +63,31 @@ supervisorctl restart tickers
 проверка
 ps xa | grep gunicorn
 
-### manual start celery
+#run celery worker
+
+## manual start celery
 celery worker -A ticker.celery_worker.celery --loglevel=info
+
+or 
+## start celery deamon
+
+from
+https://github.com/celery/celery/tree/master/extra/generic-init.d
+
+```bash
+ Скопировать celeryd в /etc/init.d/celeryd
+$ sudo chmod 755 /etc/init.d/celeryd
+$ sudo chown root:root /etc/init.d/celeryd
+
+Скопировать конфигурационный файл в /etc/default/celeryd
+
+Запуск
+$ sudo /etc/init.d/celeryd start
+Статус
+$ sudo /etc/init.d/celeryd status
+Остановка
+$ sudo /etc/init.d/celeryd stop
+```
 
 ## Usage
 ```html
