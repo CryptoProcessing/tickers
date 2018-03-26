@@ -125,7 +125,7 @@ spew = False
 daemon = False
 pidfile = None
 umask = 0
-user = 'bc'
+user = 'deployer'
 
 group = None
 tmp_upload_dir = None
