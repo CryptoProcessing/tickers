@@ -15,7 +15,8 @@ class Bitfinex(BaseTicker):
         ('ethbtc', 'ETH:BTC'),
         ('btcusd', 'BTC:GGT'),
         ('ethusd', 'ETH:USD'),
-        ('ethusd', 'ETH:GGT')
+        ('ethusd', 'ETH:GGT'),
+        ('ltcusd', 'LTC:USD')
     )
 
     def __init__(self, fund_ids=fund_ids):

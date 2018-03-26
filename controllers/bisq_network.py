@@ -13,7 +13,7 @@ class Bisq(BaseTicker):
     fund_ids = (
         ('btc_usd', 'BTC:USD'),
         ('btc_usd', 'BTC:GGT'),
-        ('eth_btc', 'ETH:BTC')
+        ('eth_btc', 'ETH:BTC'),
     )
 
     def __init__(self, fund_ids=fund_ids):

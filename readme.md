@@ -89,8 +89,16 @@ $ sudo /etc/init.d/celeryd status
 $ sudo /etc/init.d/celeryd stop
 ```
 
+## crontab
+
+Add line. 
+```bash
+*/5 * * * * /home/deployer/tickers/venv/bin/python3 /home/deployer/tickers/manage.py runtickers
+```
+
+
 ## Usage
 ```html
-/api/v1/data/price?pair=BTC:USD&ts=1513888428
+/api/v1/data/price?pair=BTC:USD&ts=1513888428&market=2
 ```
-parameters are optional
+all parameters are optional

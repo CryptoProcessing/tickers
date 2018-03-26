@@ -15,7 +15,8 @@ class Bitsmap(BaseTicker):
         ('btcusd', 'BTC:GGT'),
         ('ethusd', 'ETH:GGT'),
         ('ethbtc', 'ETH:BTC'),
-        ('ethusd', 'ETH:USD')
+        ('ethusd', 'ETH:USD'),
+        ('ltcusd', 'LTC:USD')
     )
 
     def __init__(self, fund_ids=fund_ids):

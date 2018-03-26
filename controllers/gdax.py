@@ -15,6 +15,7 @@ class Gdax(BaseTicker):
         ('ETH-BTC', 'ETH:BTC'),
         ('ETH-USD', 'ETH:USD'),
         ('ETH-USD', 'ETH:GGT'),
+        ('LTC-USD', 'LTC:USD'),
     )
 
     def __init__(self, fund_ids=fund_ids):
