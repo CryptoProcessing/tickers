@@ -4,7 +4,6 @@ from flask_celery import Celery
 from raven.contrib.flask import Sentry
 
 
-celery = Celery()
 rest_api = Api()
 app_scheduler = APScheduler()
 sentry = Sentry()

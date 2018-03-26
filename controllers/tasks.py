@@ -1,5 +1,5 @@
 import datetime
-from flask import current_app
+import os
 from controllers.therocktrading import Therocktrading
 from controllers.gdax import Gdax
 from controllers.bitfinex import Bitfinex
@@ -7,8 +7,9 @@ from controllers.cex_io import Cexio
 from controllers.bitsmap_net import Bitsmap
 from controllers.itbit_com import Itbit
 from controllers.bisq_network import Bisq
-from ticker.extensions import celery, sentry
+from ticker.extensions import sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
+from ticker import make_celery, create_app
 
 #  add all tickers classes
 
@@ -22,10 +23,22 @@ MAP_PROVIDER = {
     'bisq.network': Bisq()
 }
 
+env = os.environ.get('TICKER_ENV', 'prod')
+app = create_app('config.%sConfig' % env.capitalize(), register_blueprints=False)
 
-# @celery.task()
+celery = make_celery(app)
+
+
+def ticker_job():
+    for mp in MAP_PROVIDER:
+        print(mp, datetime.datetime.now())
+        save_ticker.delay(mp)
+
+
+@celery.task()
 def save_ticker(mp):
     provider = InfoProvider(resource=mp)
+    print(mp)
     try:
         ticker_data = provider.get_tickers()
         to_db(market=mp, data=ticker_data)
@@ -50,12 +63,6 @@ def to_db(market, data):
 
             db.session.add(ticker)
             db.session.commit()
-
-
-def ticker_job():
-    for mp in MAP_PROVIDER:
-        print(datetime.datetime.now())
-        save_ticker(mp)
 
 
 class InfoProvider:

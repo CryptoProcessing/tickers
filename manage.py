@@ -8,6 +8,8 @@ from flask_migrate import Migrate, MigrateCommand
 from ticker import create_app
 from ticker.models import db
 
+from controllers.tasks import ticker_job
+
 # default to dev config
 env = os.environ.get('TICKER_ENV', 'dev')
 app = create_app('config.%sConfig' % env.capitalize())
@@ -35,6 +37,12 @@ def test():
     if result.wasSuccessful():
         return 0
     return 1
+
+
+@manager.command
+def runtickers():
+    """Runs the tickers job."""
+    ticker_job()
 
 
 if __name__ == "__main__":

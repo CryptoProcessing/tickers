@@ -51,6 +51,8 @@ supervisorctl restart tickers
 проверка
 ps xa | grep gunicorn
 
+### manual start celery
+celery worker -A ticker.celery_worker.celery --loglevel=info
 
 ## Usage
 ```html
