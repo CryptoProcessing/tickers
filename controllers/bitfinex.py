@@ -16,7 +16,8 @@ class Bitfinex(BaseTicker):
         ('btcusd', 'BTC:GGT'),
         ('ethusd', 'ETH:USD'),
         ('ethusd', 'ETH:GGT'),
-        ('ltcusd', 'LTC:USD')
+        ('ltcusd', 'LTC:USD'),  # Litecoin
+        ('bchusd', 'BCH:USD'),  # Bitcoin Cash / BCC
     )
 
     def __init__(self, fund_ids=fund_ids):

@@ -15,6 +15,7 @@ class Cexio(BaseTicker):
         ('ETH:BTC', 'ETH:BTC'),
         ('ETH:USD', 'ETH:USD'),
         ('ETH:USD', 'ETH:GGT'),
+        ('BCH:USD', 'BCH:USD'), # Bitcoin Cash / BCC
     )
 
     def __init__(self, fund_ids=fund_ids):
