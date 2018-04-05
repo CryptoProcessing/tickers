@@ -45,21 +45,18 @@ python manage.py db init
 python manage.py db migrate
 ```
 ## start gunicorn
-если еще не установлен supervisor то
+
+конфиг Gunicorn из папки extra/systemd/gunicorn.service в /etc/systemd/system
+
+
 ```bash
-apt-get install supervisor
+systemctl daemon-reload
+systemctl start gunicorn.service
+systemctl status gunicorn.service
+systemctl restart gunicorn.service
+
 ```
 
-скопровать в /etc/supervisor/conf.d/
-конфиг Gunicorn из папки extra/etc/supervisor/conf.d/tickers.conf
-
-команды для supervisor
-```bash
-supervisorctl reread
-supervisorctl update
-supervisorctl status tickers
-supervisorctl restart tickers
-```
 проверка
 ps xa | grep gunicorn
 
@@ -69,24 +66,17 @@ ps xa | grep gunicorn
 celery worker -A ticker.celery_worker.celery --loglevel=info
 
 or 
-## start celery deamon
+## start celery daemon
 
-from
-https://github.com/celery/celery/tree/master/extra/generic-init.d
+конфиг Celery из папки extra/systemd/celery.service в /etc/systemd/system
+конфиг Celery из папки extra/systemd/celeryd в /etc/default
 
 ```bash
- Скопировать celeryd в /etc/init.d/celeryd
-$ sudo chmod 755 /etc/init.d/celeryd
-$ sudo chown root:root /etc/init.d/celeryd
+systemctl daemon-reload
+systemctl start celery.service
+systemctl status celery.service
+systemctl restart celery.service
 
-Скопировать конфигурационный файл в /etc/default/celeryd
-
-Запуск
-$ sudo /etc/init.d/celeryd start
-Статус
-$ sudo /etc/init.d/celeryd status
-Остановка
-$ sudo /etc/init.d/celeryd stop
 ```
 
 ## crontab
@@ -96,6 +86,11 @@ Add line.
 */5 * * * * /home/deployer/tickers/venv/bin/python3 /home/deployer/tickers/manage.py runtickers
 ```
 
+# Restart all
+
+```bash
+sudo bash /home/deployer/ticker/restart.sh
+```
 
 ## Usage
 ```html
