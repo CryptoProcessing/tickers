@@ -31,19 +31,16 @@ celery = make_celery(app)
 
 def ticker_job():
     for mp in MAP_PROVIDER:
-        print(mp, datetime.datetime.now())
         save_ticker.delay(mp)
 
 
 @celery.task()
 def save_ticker(mp):
     provider = InfoProvider(resource=mp)
-    print(mp)
     try:
         ticker_data = provider.get_tickers()
         to_db(market=mp, data=ticker_data)
     except Exception as e:
-        # current_app.logger.warning('Error tickers info server {} {}'.format(self.resource, e))
         sentry.captureException()
 
 
@@ -75,7 +72,7 @@ class InfoProvider:
         try:
             factory = MAP_PROVIDER.get(resource)
         except KeyError as e:
-            print(e)
+            sentry.captureException()
         return factory
 
     def get_tickers(self):
