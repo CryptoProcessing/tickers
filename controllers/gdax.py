@@ -35,8 +35,8 @@ class Gdax(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': req_json['ask'] / self.factor(fund),
-                'bid': req_json['bid'] / self.factor(fund),
+                'ask': float(req_json['ask']) / self.factor(fund),
+                'bid': float(req_json['bid']) / self.factor(fund),
                 'date': self.str_to_date(req_json['time']),
                 'fund_id': fund[1],
             }

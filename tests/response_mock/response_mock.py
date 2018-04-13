@@ -27,12 +27,12 @@ bitfinex_response_eth_btc = {
 bitfinex_expected_response =[
     {'fund_id': 'BTC:USD',
      'date':  datetime.datetime(2017, 12, 24, 17, 57, 38, 466694),
-     'ask': '13134.0',
-     'bid': '13130.0'},
+     'ask': 13134.0,
+     'bid': 13130.0},
     {'fund_id': 'ETH:BTC',
      'date': datetime.datetime(2017, 12, 29, 17, 48, 50, 472265),
-     'bid': '0.051348',
-     'ask': '0.051349'}
+     'bid': 0.051348,
+     'ask': 0.051349}
 ]
 ######### GDAX #########
 
@@ -61,12 +61,12 @@ gdax_response_btc_usd = {
 gdax_expected_response =[
     {'fund_id': 'BTC:USD',
      'date': datetime.datetime(2017, 12, 20, 13, 22, 52, 613000),
-     'ask': '17698.87',
-     'bid': '17698.86'},
+     'ask': 17698.87,
+     'bid': 17698.86},
     {'fund_id': 'ETH:BTC',
      'date': datetime.datetime(2017, 12, 20, 13, 4, 34, 183000),
-     'ask': '0.04679',
-     'bid': '0.04678'}
+     'ask': 0.04679,
+     'bid': 0.04678}
 ]
 
 

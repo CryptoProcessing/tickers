@@ -33,12 +33,12 @@ class Cexio(BaseTicker):
         if not req_json:
             return []
 
-        list_fund_id = [(f_id[0], f_id[1], f_id[2]) for f_id in self.fund_id]
+        list_fund_id = [f_id for f_id in self.fund_id]
 
         for lf in list_fund_id:
             fund_data =[
-               {'ask': f['ask'] / self.factor(lf[2]),
-                'bid': f['bid'] / self.factor(lf[2]),
+               {'ask': float(f['ask']) / self.factor(lf),
+                'bid': float(f['bid']) / self.factor(lf),
                 'date': self.str_to_date(f['timestamp']),
                 'fund_id': lf[1],
                 }
