@@ -51,7 +51,6 @@ class Testbitfinex(unittest.TestCase):
     @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get)
     def test_bitfinex(self, _):
 
-
         response = self.bitfinex_resp.get_ticker_info()
 
         self.assertEqual(response, bitfinex_expected_response)

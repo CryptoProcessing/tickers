@@ -13,9 +13,9 @@ class Bitfinex(BaseTicker):
     fund_ids = (
         ('btcusd', 'BTC:USD'),
         ('ethbtc', 'ETH:BTC'),
-        ('btcusd', 'BTC:GGT'),
+        ('btcusd', 'BTC:GGT', 1000),
         ('ethusd', 'ETH:USD'),
-        ('ethusd', 'ETH:GGT'),
+        ('ethusd', 'ETH:GGT', 1000),
         ('ltcusd', 'LTC:USD'),  # Litecoin
         ('bchusd', 'BCH:USD'),  # Bitcoin Cash / BCC
     )
@@ -36,8 +36,8 @@ class Bitfinex(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': req_json['ask'],
-                'bid': req_json['bid'],
+                'ask': req_json['ask'] / self.factor(fund),
+                'bid': req_json['bid'] / self.factor(fund),
                 'date': self.str_to_date(req_json['timestamp']),
                 'fund_id': fund[1],
             }

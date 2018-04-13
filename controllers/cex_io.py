@@ -11,10 +11,10 @@ class Cexio(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTC:USD', 'BTC:USD'),
-        ('BTC:USD', 'BTC:GGT'),
+        ('BTC:USD', 'BTC:GGT', 1000),
         ('ETH:BTC', 'ETH:BTC'),
         ('ETH:USD', 'ETH:USD'),
-        ('ETH:USD', 'ETH:GGT'),
+        ('ETH:USD', 'ETH:GGT', 1000),
         ('BCH:USD', 'BCH:USD'), # Bitcoin Cash / BCC
     )
 
@@ -33,12 +33,12 @@ class Cexio(BaseTicker):
         if not req_json:
             return []
 
-        list_fund_id = [(f_id[0], f_id[1]) for f_id in self.fund_id]
+        list_fund_id = [(f_id[0], f_id[1], f_id[2]) for f_id in self.fund_id]
 
         for lf in list_fund_id:
             fund_data =[
-               {'ask': f['ask'],
-                'bid': f['bid'],
+               {'ask': f['ask'] / self.factor(lf[2]),
+                'bid': f['bid'] / self.factor(lf[2]),
                 'date': self.str_to_date(f['timestamp']),
                 'fund_id': lf[1],
                 }

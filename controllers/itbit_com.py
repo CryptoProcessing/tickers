@@ -12,7 +12,7 @@ class Itbit(BaseTicker):
 
     fund_ids = (
         ('XBTUSD', 'BTC:USD'),
-        ('XBTUSD', 'BTC:GGT'),
+        ('XBTUSD', 'BTC:GGT', 1000),
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -31,8 +31,8 @@ class Itbit(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': float(req_json['ask']),
-                'bid': float(req_json['bid']),
+                'ask': float(req_json['ask']) / self.factor(fund),
+                'bid': float(req_json['bid']) / self.factor(fund),
                 'date': self.str_to_date(req_json['serverTimeUTC']),
                 'fund_id': fund[1],
             }
