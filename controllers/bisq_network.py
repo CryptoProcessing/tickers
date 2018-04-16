@@ -12,7 +12,7 @@ class Bisq(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('btc_usd', 'BTC:USD'),
-        ('btc_usd', 'BTC:GGT', 1000),
+        ('btc_usd', 'BTC:GGT', 0.0001),
         ('eth_btc', 'ETH:BTC'),
     )
 

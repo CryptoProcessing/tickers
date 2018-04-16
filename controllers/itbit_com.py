@@ -12,7 +12,7 @@ class Itbit(BaseTicker):
 
     fund_ids = (
         ('XBTUSD', 'BTC:USD'),
-        ('XBTUSD', 'BTC:GGT', 1000),
+        ('XBTUSD', 'BTC:GGT', 0.0001),
     )
 
     def __init__(self, fund_ids=fund_ids):

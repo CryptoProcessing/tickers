@@ -12,8 +12,8 @@ class Bitsmap(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('btcusd', 'BTC:USD'),
-        ('btcusd', 'BTC:GGT', 1000),
-        ('ethusd', 'ETH:GGT', 1000),
+        ('btcusd', 'BTC:GGT', 0.0001),
+        ('ethusd', 'ETH:GGT', 0.0001),
         ('ethbtc', 'ETH:BTC'),
         ('ethusd', 'ETH:USD'),
         ('ltcusd', 'LTC:USD'),
