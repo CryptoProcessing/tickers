@@ -31,8 +31,7 @@ celery = make_celery(app)
 
 def ticker_job():
     for mp in MAP_PROVIDER:
-        print(mp)
-        save_ticker(mp)
+        save_ticker.delay(mp)
 
 
 @celery.task()
