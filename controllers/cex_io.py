@@ -11,11 +11,11 @@ class Cexio(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTC:USD', 'BTC:USD'),
-        ('BTC:USD', 'BTC:GGT', 0.0001),
+        ('BTC:USD', 'BTC:GGT', 1000),
         ('ETH:BTC', 'ETH:BTC'),
         ('ETH:USD', 'ETH:USD'),
-        ('ETH:USD', 'ETH:GGT', 0.0001),
-        ('BCH:USD', 'BCH:USD'),  # Bitcoin Cash / BCC
+        ('ETH:USD', 'ETH:GGT', 1000),
+        ('BCH:USD', 'BCH:USD'), # Bitcoin Cash / BCC
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -37,8 +37,8 @@ class Cexio(BaseTicker):
 
         for lf in list_fund_id:
             fund_data =[
-               {'ask': float(f['ask']) / self.factor(lf),
-                'bid': float(f['bid']) / self.factor(lf),
+               {'ask': float(f['ask']) * self.factor(lf),
+                'bid': float(f['bid']) * self.factor(lf),
                 'date': self.str_to_date(f['timestamp']),
                 'fund_id': lf[1],
                 }

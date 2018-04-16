@@ -10,7 +10,7 @@ class Therocktrading(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTCUSD', 'BTC:USD',),
-        ('BTCUSD', 'BTC:GGT', 0.0001),
+        ('BTCUSD', 'BTC:GGT', 1000),
 
         ('ETHBTC', 'ETH:BTC',),
         ('ETHEUR', 'ETH:EUR',)
@@ -33,8 +33,8 @@ class Therocktrading(BaseTicker):
 
         for lf in list_fund_id:
             fund_data = [
-                {'ask': f['ask'] / self.factor(lf),
-                 'bid': f['bid'] / self.factor(lf),
+                {'ask': f['ask'] * self.factor(lf),
+                 'bid': f['bid'] * self.factor(lf),
                  'date': self.str_to_date(f['date']),
                  'fund_id':lf[1],
                    }

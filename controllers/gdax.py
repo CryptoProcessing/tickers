@@ -11,10 +11,10 @@ class Gdax(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTC-USD', 'BTC:USD'),
-        ('BTC-USD', 'BTC:GGT', 0.0001),
+        ('BTC-USD', 'BTC:GGT', 1000),
         ('ETH-BTC', 'ETH:BTC'),
         ('ETH-USD', 'ETH:USD'),
-        ('ETH-USD', 'ETH:GGT', 0.0001),
+        ('ETH-USD', 'ETH:GGT', 1000),
         ('LTC-USD', 'LTC:USD'),
         ('BCH-USD', 'BCH:USD'), # Bitcoin Cash / BCC
     )
@@ -35,8 +35,8 @@ class Gdax(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': float(req_json['ask']) / self.factor(fund),
-                'bid': float(req_json['bid']) / self.factor(fund),
+                'ask': float(req_json['ask']) * self.factor(fund),
+                'bid': float(req_json['bid']) * self.factor(fund),
                 'date': self.str_to_date(req_json['time']),
                 'fund_id': fund[1],
             }

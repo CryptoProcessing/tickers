@@ -12,8 +12,8 @@ class Bitsmap(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('btcusd', 'BTC:USD'),
-        ('btcusd', 'BTC:GGT', 0.0001),
-        ('ethusd', 'ETH:GGT', 0.0001),
+        ('btcusd', 'BTC:GGT', 1000),
+        ('ethusd', 'ETH:GGT', 1000),
         ('ethbtc', 'ETH:BTC'),
         ('ethusd', 'ETH:USD'),
         ('ltcusd', 'LTC:USD'),
@@ -36,8 +36,8 @@ class Bitsmap(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': float(req_json['ask']) / self.factor(fund),
-                'bid': float(req_json['bid']) / self.factor(fund),
+                'ask': float(req_json['ask']) * self.factor(fund),
+                'bid': float(req_json['bid']) * self.factor(fund),
                 'date': self.str_to_date(req_json['timestamp']),
                 'fund_id': fund[1],
             }

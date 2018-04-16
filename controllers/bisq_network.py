@@ -12,7 +12,7 @@ class Bisq(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('btc_usd', 'BTC:USD'),
-        ('btc_usd', 'BTC:GGT', 0.0001),
+        ('btc_usd', 'BTC:GGT', 1000),
         ('eth_btc', 'ETH:BTC'),
     )
 
@@ -32,8 +32,8 @@ class Bisq(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': float(req_json[0]['last']) / self.factor(fund),
-                'bid': float(req_json[0]['last']) / self.factor(fund),
+                'ask': float(req_json[0]['last']) * self.factor(fund),
+                'bid': float(req_json[0]['last']) * self.factor(fund),
                 'date': self.str_to_date(req_json[0].get('timestamp')),
                 'fund_id': fund[1],
             }
