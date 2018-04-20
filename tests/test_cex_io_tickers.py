@@ -1,5 +1,5 @@
 import unittest
-from controllers import cex_io
+from controllers.markets import cex_io
 from unittest.mock import patch
 from tests.response_mock.response_mock_cex import cexio_response, cexio_expected_response
 import datetime
@@ -68,7 +68,7 @@ class TestUtils(unittest.TestCase):
 
 class Testcexio(unittest.TestCase):
 
-    @patch('controllers.cex_io.requests.get', side_effect=mocked_cexio_requests_get)
+    @patch('controllers.markets.cex_io.requests.get', side_effect=mocked_cexio_requests_get)
     def test_cexio(self, _):
 
         cexio_trading = cex_io.Cexio(fund_ids=(
@@ -79,7 +79,7 @@ class Testcexio(unittest.TestCase):
 
         self.assertEqual(response, cexio_expected_response)
 
-    @patch('controllers.cex_io.requests.get', side_effect=mocked_cexio_requests_get_none_resp)
+    @patch('controllers.markets.cex_io.requests.get', side_effect=mocked_cexio_requests_get_none_resp)
     def test_cexio_none(self, _):
 
         cexio_trading = cex_io.Cexio()
@@ -88,7 +88,7 @@ class Testcexio(unittest.TestCase):
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.cex_io.requests.get', side_effect=mocked_cexio_requests_get_empty__dict_resp)
+    @patch('controllers.markets.cex_io.requests.get', side_effect=mocked_cexio_requests_get_empty__dict_resp)
     def test_cexio_empty_dict(self, _):
 
         cexio_trading = cex_io.Cexio()

@@ -1,8 +1,7 @@
 import unittest
-from controllers import bitsmap_net
+from controllers.markets import bitsmap_net
 from unittest.mock import patch
 from tests.response_mock.response_www_bitstamp_net import bitsmap_expected_response, bitsmap_response_btc_usd, bitsmap_response_eth_usd
-import datetime
 
 ETH_USD_URL = 'https://www.bitstamp.net/api/v2/ticker/ethusd'
 BTC_USD_URL = 'https://www.bitstamp.net/api/v2/ticker/btcusd'
@@ -51,21 +50,21 @@ class TestGdax(unittest.TestCase):
             ('ethusd', 'ETH:USD'),
         ))
 
-    @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get)
+    @patch('controllers.markets.bitsmap_net.requests.get', side_effect=mocked_requests_get)
     def test_bitsmap_net(self, _):
 
         response = self.bitsmap_net_resp.get_ticker_info()
 
         self.assertEqual(response, bitsmap_expected_response)
 
-    @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get_none_resp)
+    @patch('controllers.markets.bitsmap_net.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_bitsmap_net_resp_none(self, _):
         response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.bitsmap_net.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
+    @patch('controllers.markets.bitsmap_net.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_bitsmap_net_empty_dict(self, _):
         response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []

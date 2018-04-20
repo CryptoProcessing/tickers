@@ -1,5 +1,5 @@
 import unittest
-from controllers import therocktrading
+from controllers.markets import therocktrading
 from unittest.mock import patch
 from tests.response_mock.response_mock import therock_response, therock_expected_response
 import datetime
@@ -67,7 +67,7 @@ class TestUtils(unittest.TestCase):
 
 class TestTherocktrading(unittest.TestCase):
 
-    @patch('controllers.therocktrading.requests.get', side_effect=mocked_therock_requests_get)
+    @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get)
     def test_therocktrading(self, _):
 
         therock_trading = therocktrading.Therocktrading(fund_ids=(
@@ -78,7 +78,7 @@ class TestTherocktrading(unittest.TestCase):
 
         self.assertEqual(response, therock_expected_response)
 
-    @patch('controllers.therocktrading.requests.get', side_effect=mocked_therock_requests_get_none_resp)
+    @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get_none_resp)
     def test_therocktrading_none(self, _):
 
         therock_trading = therocktrading.Therocktrading()
@@ -87,7 +87,7 @@ class TestTherocktrading(unittest.TestCase):
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.therocktrading.requests.get', side_effect=mocked_therock_requests_get_empty__dict_resp)
+    @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get_empty__dict_resp)
     def test_therocktrading_empty_dict(self, _):
 
         therock_trading = therocktrading.Therocktrading()

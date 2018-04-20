@@ -1,8 +1,7 @@
 import unittest
-from controllers import bitfinex
+from controllers.markets import bitfinex
 from unittest.mock import patch
 from tests.response_mock.response_mock import bitfinex_response_btc_usd, bitfinex_response_eth_btc, bitfinex_expected_response
-import datetime
 
 
 class MockResponse:
@@ -48,21 +47,21 @@ class Testbitfinex(unittest.TestCase):
             ('ethbtc', 'ETH:BTC'),
         ))
 
-    @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get)
+    @patch('controllers.markets.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get)
     def test_bitfinex(self, _):
 
         response = self.bitfinex_resp.get_ticker_info()
 
         self.assertEqual(response, bitfinex_expected_response)
 
-    @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_none_resp)
+    @patch('controllers.markets.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_none_resp)
     def test_bitfinex_resp_none(self, _):
         response = self.bitfinex_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_empty__dict_resp)
+    @patch('controllers.markets.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_empty__dict_resp)
     def test_bitfinex_empty_dict(self, _):
         response = self.bitfinex_resp.get_ticker_info()
         expected_response = []

@@ -1,8 +1,7 @@
 import unittest
-from controllers import gdax
+from controllers.markets import gdax
 from unittest.mock import patch
 from tests.response_mock.response_mock import gdax_response_btc_usd, gdax_response_eth_btc, gdax_expected_response
-import datetime
 
 
 class MockResponse:
@@ -48,20 +47,20 @@ class TestGdax(unittest.TestCase):
             ('ETH-BTC', 'ETH:BTC'),
         ))
 
-    @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get)
+    @patch('controllers.markets.gdax.requests.get', side_effect=mocked_gdax_requests_get)
     def test_gdax(self, _):
         response = self.gdax_resp.get_ticker_info()
 
         self.assertEqual(response, gdax_expected_response)
 
-    @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get_none_resp)
+    @patch('controllers.markets.gdax.requests.get', side_effect=mocked_gdax_requests_get_none_resp)
     def test_gdax_resp_none(self, _):
         response = self.gdax_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.gdax.requests.get', side_effect=mocked_gdax_requests_get_empty__dict_resp)
+    @patch('controllers.markets.gdax.requests.get', side_effect=mocked_gdax_requests_get_empty__dict_resp)
     def test_gdax_empty_dict(self, _):
         response = self.gdax_resp.get_ticker_info()
         expected_response = []

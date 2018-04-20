@@ -1,4 +1,4 @@
-from .base_ticker import BaseTicker
+from controllers.base_ticker import BaseTicker
 import requests
 import datetime
 

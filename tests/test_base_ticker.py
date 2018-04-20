@@ -1,8 +1,5 @@
 import unittest
-from controllers import bitfinex
-from unittest.mock import patch
-from tests.response_mock.response_mock import bitfinex_response_btc_usd, bitfinex_response_eth_btc, bitfinex_expected_response
-import datetime
+from controllers.markets import bitfinex
 
 
 class TestBaseTicker(unittest.TestCase):
