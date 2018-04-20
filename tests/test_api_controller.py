@@ -195,3 +195,12 @@ class TestApiController(BaseTestCase):
 
         data = json.loads(response.data.decode())
         self.assertEqual(data, [{'name': 'Best market in the world', 'id': 1}, {'name': '2nd best market in the world', 'id': 2}])
+
+    def test_get_version(self):
+        response = self.client.get(
+            '/api/version'
+        )
+
+        data = json.loads(response.data.decode())
+        self.assertTrue(data)
+        self.assert200(response)

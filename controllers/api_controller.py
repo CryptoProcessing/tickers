@@ -1,4 +1,5 @@
 import datetime
+from controllers.utils import get_version
 from flask import request, make_response, jsonify
 from flask.views import MethodView
 from ticker.models import Ticker, Pair, Market
@@ -101,4 +102,12 @@ class MarketApi(MethodView):
         """
 
         result = [{'name': m.name, 'id': m.id} for m in (Market.query.all())]
+        return make_response(jsonify(result)), 200
+
+
+class VersionApi(MethodView):
+
+    def get(self, **kwargs):
+        result = get_version().split('\n')
+
         return make_response(jsonify(result)), 200

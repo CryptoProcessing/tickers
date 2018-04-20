@@ -9,6 +9,8 @@ from ticker import create_app
 from ticker.models import db
 
 from controllers.tasks import ticker_job
+from controllers.utils import get_version
+
 
 # default to dev config
 env = os.environ.get('TICKER_ENV', 'dev')
@@ -43,6 +45,13 @@ def test():
 def runtickers():
     """Runs the tickers job."""
     ticker_job()
+
+
+@manager.command
+def version():
+    """Runs the tickers job."""
+    v = get_version()
+    print(v)
 
 
 if __name__ == "__main__":

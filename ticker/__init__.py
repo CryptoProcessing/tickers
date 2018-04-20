@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint
 from ticker.models import db
 from ticker.extensions import rest_api, app_scheduler, sentry
-from controllers.api_controller import PriceApi, MarketApi
+from controllers.api_controller import PriceApi, MarketApi, VersionApi
 
 from celery import Celery
 
@@ -43,18 +43,25 @@ def create_app(object_name, register_blueprints=True):
         # define the API resources
         price_view = PriceApi.as_view('price')
         market_view = MarketApi.as_view('markets')
+        version_view = VersionApi.as_view('version')
         # add Rules for API Endpoints
         auth_blueprint.add_url_rule(
-            '/data/price',
+            '/v1/data/price',
             view_func=price_view,
             methods=['GET']
         )
         auth_blueprint.add_url_rule(
-            '/data/markets',
+            '/v1/data/markets',
             view_func=market_view,
             methods=['GET']
         )
-        app.register_blueprint(auth_blueprint, url_prefix='/api/v1')
+
+        auth_blueprint.add_url_rule(
+            '/version',
+            view_func=version_view,
+            methods=['GET']
+        )
+        app.register_blueprint(auth_blueprint, url_prefix='/api')
 
     rest_api.init_app(app)
 
@@ -62,5 +69,5 @@ def create_app(object_name, register_blueprints=True):
 
 
 if __name__ == '__main__':
-    app = app = create_app('project.config.ProdConfig')
+    app = create_app('project.config.ProdConfig')
     app.run()

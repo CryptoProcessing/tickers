@@ -1,12 +1,11 @@
-import datetime
 import os
-from controllers.therocktrading import Therocktrading
-from controllers.gdax import Gdax
-from controllers.bitfinex import Bitfinex
-from controllers.cex_io import Cexio
-from controllers.bitsmap_net import Bitsmap
-from controllers.itbit_com import Itbit
-from controllers.bisq_network import Bisq
+from controllers.markets.therocktrading import Therocktrading
+from controllers.markets.gdax import Gdax
+from controllers.markets.bitfinex import Bitfinex
+from controllers.markets.cex_io import Cexio
+from controllers.markets.bitsmap_net import Bitsmap
+from controllers.markets.itbit_com import Itbit
+from controllers.markets.bisq_network import Bisq
 from ticker.extensions import sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 from ticker import make_celery, create_app
