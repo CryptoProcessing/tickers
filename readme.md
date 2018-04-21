@@ -97,3 +97,15 @@ sudo bash /home/deployer/ticker/restart.sh
 /api/v1/data/price?pair=BTC:USD&ts=1513888428&market=2
 ```
 all parameters are optional
+
+### Version
+
+```bash
+python manage.py version
+```
+or 
+```html
+/api/version
+```
+
+

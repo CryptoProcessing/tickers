@@ -11,10 +11,10 @@ class Gdax(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTC-USD', 'BTC:USD'),
-        ('BTC-USD', 'BTC:GGT', 1000),
+        ('BTC-USD', 'BTC:GGT', 10),
         ('ETH-BTC', 'ETH:BTC'),
         ('ETH-USD', 'ETH:USD'),
-        ('ETH-USD', 'ETH:GGT', 1000),
+        ('ETH-USD', 'ETH:GGT', 10),
         ('LTC-USD', 'LTC:USD'),
         ('BCH-USD', 'BCH:USD'), # Bitcoin Cash / BCC
     )

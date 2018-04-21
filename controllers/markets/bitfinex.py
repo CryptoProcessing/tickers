@@ -13,9 +13,9 @@ class Bitfinex(BaseTicker):
     fund_ids = (
         ('btcusd', 'BTC:USD'),
         ('ethbtc', 'ETH:BTC'),
-        ('btcusd', 'BTC:GGT', 1000),
+        ('btcusd', 'BTC:GGT', 10),
         ('ethusd', 'ETH:USD'),
-        ('ethusd', 'ETH:GGT', 1000),
+        ('ethusd', 'ETH:GGT', 10),
         ('ltcusd', 'LTC:USD'),  # Litecoin
         ('bchusd', 'BCH:USD'),  # Bitcoin Cash / BCC
     )
