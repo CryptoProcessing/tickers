@@ -38,7 +38,7 @@ class PriceApi(MethodView):
             date = datetime.datetime.now()
 
         # ограничение снизу
-        min_date = date - datetime.timedelta(hours=5)
+        min_date = date - datetime.timedelta(hours=10)
 
         if pair:
             pair_data = Pair.query.filter_by(name=pair).all()
