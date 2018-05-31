@@ -1,12 +1,10 @@
 import unittest
-from controllers.markets import bisq_network
-from unittest.mock import patch, Mock
-from tests.response_mock.response_bisq_network import response_btc_usd, response_eth_btc
-import datetime
+from controllers.markets import bitstamp
+from unittest.mock import patch
+from tests.response_mock.response_bitstamp_network import response_btc_usd, response_eth_btc, expected_response
 
-ETH_BTC_URL = 'https://markets.bisq.network/api/ticker?market=eth_btc'
-BTC_USD_URL = 'https://markets.bisq.network/api/ticker?market=btc_usd'
-
+btc_usd_url = 'https://www.bitstamp.net/api/v2/ticker/btcusd/'
+eth_btc_url = 'https://www.bitstamp.net/api/v2/ticker/ethbtc/'
 
 class MockResponse:
     def __init__(self, json_data, status_code):
@@ -17,80 +15,56 @@ class MockResponse:
         return self.json_data
 
 
-class TestUtils(unittest.TestCase):
-
-    def test_str_todate(self):
-        clsinst = bisq_network.Bisq()
-        mapped_fund = clsinst.str_to_date(None)
-
-        self.assertTrue(isinstance(mapped_fund, datetime.date))
-
-
-def mocked_requests_get(*args, **kwargs):
-    if args[0] == BTC_USD_URL:
+def mocked_bitstamp_requests_get(*args, **kwargs):
+    if args[0] == btc_usd_url:
         return MockResponse(response_btc_usd, 200)
-    if args[0] == ETH_BTC_URL:
+    if args[0] == 'https://www.bitstamp.net/api/v2/ticker/ethbtc/':
         return MockResponse(response_eth_btc, 200)
 
     return MockResponse(None, 404)
 
 
-def mocked_requests_get_none_resp(*args, **kwargs):
-    if args[0] == BTC_USD_URL:
+def mocked_bitstamp_requests_get_none_resp(*args, **kwargs):
+    if args[0] == btc_usd_url:
         return MockResponse(None, 404)
-    if args[0] == ETH_BTC_URL:
+    if args[0] == eth_btc_url:
         return MockResponse(None, 404)
 
     return MockResponse(None, 404)
 
 
-def mocked_requests_get_empty__dict_resp(*args, **kwargs):
-    if args[0] == BTC_USD_URL:
+def mocked_bitstamp_requests_get_empty__dict_resp(*args, **kwargs):
+    if args[0] == btc_usd_url:
         return MockResponse({}, 200)
-    if args[0] == ETH_BTC_URL:
+    if args[0] == eth_btc_url:
         return MockResponse({}, 200)
 
     return MockResponse(None, 404)
 
 
-dtm = datetime.datetime.now()
-
-
-class TestBisq(unittest.TestCase):
+class TestBitstamp(unittest.TestCase):
     def setUp(self):
-        self.bitsmap_net_resp = bisq_network.Bisq(fund_ids=(
-            ('btc_usd', 'BTC:USD'),
-            ('eth_btc', 'ETH:BTC'),
+        self.bitstamp_resp = bitstamp.Bitstamp(fund_ids=(
+            ('btcusd', 'BTC:USD'),
+            ('ethbtc', 'ETH:BTC'),
         ))
 
-    @patch('controllers.base_ticker.datetime', Mock(now=lambda: dtm))
-    @patch('controllers.markets.bisq_network.requests.get', side_effect=mocked_requests_get)
-    def test_BISQ_net(self, _):
-        expected_response = [
-            {'ask': 9468.36000000,
-             'bid': 9468.36000000,
-             'date': dtm,
-             'fund_id': 'BTC:USD'},
-            {'ask': 0.10184646,
-             'bid': 0.10184646,
-             'date': dtm,
-             'fund_id': 'ETH:BTC'}
-        ]
-
-        response = self.bitsmap_net_resp.get_ticker_info()
+    @patch('controllers.markets.bitstamp.requests.get', side_effect=mocked_bitstamp_requests_get)
+    def test_bitstamp(self, _):
+        response = self.bitstamp_resp.get_ticker_info()
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bisq_network.requests.get', side_effect=mocked_requests_get_none_resp)
-    def test_bitsmap_net_resp_none(self, _):
-        response = self.bitsmap_net_resp.get_ticker_info()
+    @patch('controllers.markets.bitstamp.requests.get', side_effect=mocked_bitstamp_requests_get_none_resp)
+    def test_bitstamp_resp_none(self, _):
+        response = self.bitstamp_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bisq_network.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
-    def test_bitsmap_net_empty_dict(self, _):
-        response = self.bitsmap_net_resp.get_ticker_info()
+    @patch('controllers.markets.bitstamp.requests.get', side_effect=mocked_bitstamp_requests_get_empty__dict_resp)
+    def test_bitstamp_empty_dict(self, _):
+        response = self.bitstamp_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)

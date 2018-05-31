@@ -1,32 +1,40 @@
 from datetime import datetime
 
 expected_response = [
-    {'ask': 9468.36000000,
-     'bid': 9468.36000000,
-     'date': datetime.now(),
+    {'ask': 7541.86,
+     'bid': 7538.88,
+     'date': datetime(2018, 5, 31, 13, 58, 17),
      'fund_id': 'BTC:USD'},
-    {'ask': 0.10184646,
-     'bid': 0.10184646,
-     'date': datetime.now(),
+    {'ask': 0.07575115,
+     'bid': 0.07562026,
+     'date': datetime(2018,  5, 31, 13, 57, 2),
      'fund_id': 'ETH:BTC'}
 ]
 
 response_btc_usd = [
-    { "last": "9468.36000000",
-      "high": "9468.36000000",
-      "low": "9224.21000000",
-      "volume_left": "0.61700000",
-      "volume_right": "5742.99440000",
-      "buy": "9618.16000000",
-      "sell": None }
+    {
+        "high": "7599.99",
+        "last": "7538.88",
+        "timestamp": "1527764297",
+        "bid": "7538.88",
+        "vwap": "7431.88",
+        "volume": "8716.27046671",
+        "low": "7273.89",
+        "ask": "7541.86",
+        "open": "7375.64"
+    }
 ]
 
 response_eth_btc = [
-    { "last": "0.10184646",
-      "high": "0.10184646",
-      "low": "0.10184646",
-      "volume_left": 0,
-      "volume_right": 0,
-      "buy": None,
-      "sell": None }
+    {
+        "high": "0.07683000",
+        "last": "0.07554523",
+        "timestamp": "1527764222",
+        "bid": "0.07562026",
+        "vwap": "0.07561960",
+        "volume": "3282.48128789",
+        "low": "0.07418408",
+        "ask": "0.07575115",
+        "open": "0.07566000"
+    }
 ]

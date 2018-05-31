@@ -3,27 +3,32 @@ import requests
 import datetime
 
 
-class Bisq(BaseTicker):
+class Bitstamp(BaseTicker):
     """
-    https://markets.bisq.network/api/ticker?market=btc_usd
+    https://www.bitstamp.net/api/v2/ticker/{currency_pair}/
+    https://www.bitstamp.net/api/v2/trading-pairs-info/
     """
     date_fmt = ''
 
-    # GGT  is token = 1$
+    # GGT  is token = 10$
     fund_ids = (
-        ('btc_usd', 'BTC:USD'),
-        ('btc_usd', 'BTC:GGT', 10),
-        ('eth_btc', 'ETH:BTC'),
+        ('btcusd', 'BTC:USD'),
+        ('btcusd', 'BTC:GGT', 10),
+        ('ethbtc', 'ETH:BTC'),
+        ('ethusd', 'ETH:USD'),
+        ('ethusd', 'ETH:GGT', 10),
+        ('ltcusd', 'LTC:USD'),
+        ('bchusd', 'BCH:USD'),
     )
 
     def __init__(self, fund_ids=fund_ids):
-        super(Bisq, self).__init__()
+        super(Bitstamp, self).__init__()
         self.fund_id = fund_ids
 
     def get_ticker_info(self):
         data = []
         for fund in self.fund_id:
-            url = 'https://markets.bisq.network/api/ticker?market={}'.format(fund[0])
+            url = 'https://www.bitstamp.net/api/v2/ticker/{}/'.format(fund[0])
 
             req = requests.get(url)
             req_json = req.json()
@@ -32,8 +37,8 @@ class Bisq(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': float(req_json[0]['last']) * self.factor(fund),
-                'bid': float(req_json[0]['last']) * self.factor(fund),
+                'ask': float(req_json[0]['ask']) * self.factor(fund),
+                'bid': float(req_json[0]['bid']) * self.factor(fund),
                 'date': self.str_to_date(req_json[0].get('timestamp')),
                 'fund_id': fund[1],
             }
@@ -42,7 +47,15 @@ class Bisq(BaseTicker):
         return data
 
     def str_to_date(self, strdate):
-        return super(Bisq, self).str_to_date(strdate)
+        """
+        Get date from timestamp
+        :param strdate:
+        :return:
+        """
+        try:
+            return datetime.datetime.fromtimestamp(float(strdate))
+        except ValueError:
+            return datetime.datetime.now()
 
 
 

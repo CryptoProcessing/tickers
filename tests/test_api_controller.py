@@ -7,6 +7,7 @@ from ticker.models import Ticker, Pair, Market
 from tests.base import BaseTestCase
 from controllers.api_controller import PriceApi
 from controllers.base_ticker import BaseTicker
+from controllers.tasks import save_ticker
 
 
 class TestApiController(BaseTestCase):
@@ -173,8 +174,8 @@ class TestApiController(BaseTestCase):
 
     def test_get_pair_market_params_ok(self):
         api = PriceApi()
-        result = api.query(pair='BTC:USD', market=2)
-        result2 = api.query(pair='ETH:USD', market=2)
+        result = api.query(pair='BTC:USD', market_id=2)
+        result2 = api.query(pair='ETH:USD', market_id=2)
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
@@ -204,3 +205,4 @@ class TestApiController(BaseTestCase):
         data = json.loads(response.data.decode())
         self.assertTrue(data)
         self.assert200(response)
+

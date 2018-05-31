@@ -6,6 +6,7 @@ from controllers.markets.cex_io import Cexio
 from controllers.markets.bitsmap_net import Bitsmap
 from controllers.markets.itbit_com import Itbit
 from controllers.markets.bisq_network import Bisq
+from controllers.markets.bitstamp import Bitstamp
 from ticker.extensions import sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 from ticker import make_celery, create_app
@@ -19,7 +20,8 @@ MAP_PROVIDER = {
     'cex.io': Cexio(),
     'bitsmap.net': Bitsmap(),
     'itbit.com': Itbit(),
-    'bisq.network': Bisq()
+    'bisq.network': Bisq(),
+    'bitstamp.net': Bitstamp(),
 }
 
 env = os.environ.get('TICKER_ENV', 'prod')
@@ -37,16 +39,24 @@ def ticker_job():
 def save_ticker(mp):
     provider = InfoProvider(resource=mp)
     try:
+        market_alias = provider.get_class_name()
         ticker_data = provider.get_tickers()
-        to_db(market=mp, data=ticker_data)
+        to_db(market=mp, market_alias=market_alias, data=ticker_data)
     except Exception as e:
         sentry.captureException()
 
 
-def to_db(market, data):
+def to_db(market, market_alias, data):
+    """
+
+    :param market:
+    :param market_alias: get from class name
+    :param data:
+    :return:
+    """
     for d in data:
         with db.app.app_context():
-            market_db, _ = get_one_or_create(db.session, Market, name=market)
+            market_db, _ = get_one_or_create(db.session, Market, name=market, alias=market_alias)
             pair_db, _ = get_one_or_create(db.session, Pair, name=d['fund_id'])
 
             ticker = Ticker(
@@ -79,6 +89,11 @@ class InfoProvider:
         response = factory.get_ticker_info()
 
         return response
+
+    def get_class_name(self):
+        factory = MAP_PROVIDER.get(self.resource)
+        class_name = factory.__class__.__name__
+        return class_name.lower()
 
 
 
