@@ -48,9 +48,10 @@ class PriceApi(MethodView):
         pairids = [p.id for p in pair_data]
 
         if market:
-            if type(market) == int:
+            try:
+                int(market)
                 filter_option = Ticker.created_at < date, Ticker.created_at > min_date, Market.id == market
-            else:
+            except:
                 filter_option = Ticker.created_at < date, Ticker.created_at > min_date, Market.alias == market
             # from one market
             max_ids = Ticker \
