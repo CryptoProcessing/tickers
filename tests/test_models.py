@@ -17,6 +17,7 @@ class TestModel(BaseTestCase):
 
         self.market = Market(
             name=self.market_name,
+            alias='market_alias'
 
         )
         db.session.add(self.market)
@@ -48,6 +49,7 @@ class TestModel(BaseTestCase):
     def test_market_ok(self):
 
         self.assertEqual(self.market.name, self.market_name)
+        self.assertEqual(self.market.alias, 'market_alias')
         self.assertTrue(self.market.id)
 
     def test_ticker_ok(self):

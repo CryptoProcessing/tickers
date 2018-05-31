@@ -39,6 +39,7 @@ class Market(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     market = db.relationship('Ticker', backref='market', lazy=True)
+    alias = db.Column(db.String(50), nullable=True)
 
     def __repr__(self):
         return self.name
