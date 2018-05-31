@@ -181,6 +181,13 @@ class TestApiController(BaseTestCase):
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
+    def test_get_pair_market_params_string_ok(self):
+        api = PriceApi()
+        result = api.query(pair='BTC:USD', market='2')
+        result2 = api.query(pair='ETH:USD', market='2')
+        self.assertEqual(result, [('BTC:USD', 600.0)])
+        self.assertEqual(result2, [('ETH:USD', 200.0)])
+
     def test_get_pair_market_params_fail(self):
         api = PriceApi()
         result = api.query(pair='BTC:USD', market=2000)
