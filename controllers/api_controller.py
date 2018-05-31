@@ -9,7 +9,7 @@ from sqlalchemy.orm import load_only
 
 class PriceApi(MethodView):
     """ Операции с аккаунтом """
-    def query(self, ts=None, pair=None, market=None, market_id=None):
+    def query(self, ts=None, pair=None, market=None):
         """
         SELECT pairs.name AS pairs_name, avg(anon_1.tickers_bid) AS avg
         FROM (SELECT tickers.id AS tickers_id,
@@ -47,13 +47,17 @@ class PriceApi(MethodView):
 
         pairids = [p.id for p in pair_data]
 
-        if market_id:
+        if market:
+            if type(market) == int:
+                filter_option = Ticker.created_at < date, Ticker.created_at > min_date, Market.id == market
+            else:
+                filter_option = Ticker.created_at < date, Ticker.created_at > min_date, Market.alias == market
             # from one market
             max_ids = Ticker \
                 .query \
                 .join(Market) \
                 .with_entities(func.max(Ticker.id).label('max')) \
-                .filter(Ticker.created_at < date, Ticker.created_at > min_date, Market.id == market_id) \
+                .filter(*filter_option) \
                 .filter(Ticker.pair.has(Pair.id.in_(pairids))) \
                 .group_by(Ticker.pair_id)
         else:
@@ -87,7 +91,7 @@ class PriceApi(MethodView):
         pair = query_string.get('pair')
         market = query_string.get('market')
 
-        result = self.query(ts=ts, pair=pair, market_id=market)
+        result = self.query(ts=ts, pair=pair, market=market)
 
         return make_response(jsonify(dict(result))), 200
 
@@ -101,7 +105,7 @@ class MarketApi(MethodView):
         :return:
         """
 
-        result = [{'name': m.name, 'id': m.id} for m in (Market.query.all())]
+        result = [{'name': m.name, 'id': m.id, 'alias': m.alias} for m in (Market.query.all())]
         return make_response(jsonify(result)), 200
 
 

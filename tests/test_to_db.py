@@ -9,7 +9,7 @@ class TestToDb(BaseTestCase):
 
     def setUp(self):
         super(TestToDb, self).setUp()
-        to_db('therock.com', therock_expected_response)
+        to_db('therock.com', market_alias='therock', data=therock_expected_response)
 
     def test_save_to_db(self):
 

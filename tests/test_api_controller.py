@@ -26,6 +26,7 @@ class TestApiController(BaseTestCase):
 
         self.market = Market(
             name=self.market_name,
+            alias='alias1'
 
         )
         db.session.add(self.market)
@@ -34,6 +35,7 @@ class TestApiController(BaseTestCase):
         # 2nd market
         self.market2 = Market(
             name=self.market_name2,
+            alias='alias2'
 
         )
         db.session.add(self.market2)
@@ -174,10 +176,31 @@ class TestApiController(BaseTestCase):
 
     def test_get_pair_market_params_ok(self):
         api = PriceApi()
-        result = api.query(pair='BTC:USD', market_id=2)
-        result2 = api.query(pair='ETH:USD', market_id=2)
+        result = api.query(pair='BTC:USD', market=2)
+        result2 = api.query(pair='ETH:USD', market=2)
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
+
+    def test_get_pair_market_params_fail(self):
+        api = PriceApi()
+        result = api.query(pair='BTC:USD', market=2000)
+        result2 = api.query(pair='ETH:USD', market=2000)
+        self.assertEqual(result, [])
+        self.assertEqual(result2, [])
+
+    def test_get_pair_alias_market_params_ok(self):
+        api = PriceApi()
+        result = api.query(pair='BTC:USD', market='alias2')
+        result2 = api.query(pair='ETH:USD', market='alias2')
+        self.assertEqual(result, [('BTC:USD', 600.0)])
+        self.assertEqual(result2, [('ETH:USD', 200.0)])
+
+    def test_get_pair_alias_market_params_failk(self):
+        api = PriceApi()
+        result = api.query(pair='BTC:USD', market='not_used_alias')
+        result2 = api.query(pair='ETH:USD', market='not_used_alias')
+        self.assertEqual(result, [])
+        self.assertEqual(result2, [])
 
     def test_response(self):
 
@@ -195,7 +218,8 @@ class TestApiController(BaseTestCase):
         )
 
         data = json.loads(response.data.decode())
-        self.assertEqual(data, [{'name': 'Best market in the world', 'id': 1}, {'name': '2nd best market in the world', 'id': 2}])
+        self.assertEqual(data, [{'name': 'Best market in the world', 'id': 1, 'alias': 'alias1'},
+                                {'name': '2nd best market in the world', 'id': 2, 'alias': 'alias2'}])
 
     def test_get_version(self):
         response = self.client.get(
