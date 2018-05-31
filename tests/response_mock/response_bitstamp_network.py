@@ -11,8 +11,7 @@ expected_response = [
      'fund_id': 'ETH:BTC'}
 ]
 
-response_btc_usd = [
-    {
+response_btc_usd = {
         "high": "7599.99",
         "last": "7538.88",
         "timestamp": "1527764297",
@@ -23,10 +22,8 @@ response_btc_usd = [
         "ask": "7541.86",
         "open": "7375.64"
     }
-]
 
-response_eth_btc = [
-    {
+response_eth_btc =  {
         "high": "0.07683000",
         "last": "0.07554523",
         "timestamp": "1527764222",
@@ -37,4 +34,3 @@ response_eth_btc = [
         "ask": "0.07575115",
         "open": "0.07566000"
     }
-]

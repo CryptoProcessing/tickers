@@ -37,9 +37,9 @@ class Bitstamp(BaseTicker):
                 continue
 
             fund_data = {
-                'ask': float(req_json[0]['ask']) * self.factor(fund),
-                'bid': float(req_json[0]['bid']) * self.factor(fund),
-                'date': self.str_to_date(req_json[0].get('timestamp')),
+                'ask': float(req_json['ask']) * self.factor(fund),
+                'bid': float(req_json['bid']) * self.factor(fund),
+                'date': self.str_to_date(req_json.get('timestamp')),
                 'fund_id': fund[1],
             }
 
