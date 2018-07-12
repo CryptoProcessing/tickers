@@ -25,7 +25,7 @@ class Cexio(BaseTicker):
     def get_ticker_info(self):
         url = 'https://cex.io/api/tickers/BTC/USD'
 
-        req = requests.get(url)
+        req = requests.get(url, timeout=2)
         req_json = req.json()
 
         data = []

@@ -25,7 +25,7 @@ class Bisq(BaseTicker):
         for fund in self.fund_id:
             url = 'https://markets.bisq.network/api/ticker?market={}'.format(fund[0])
 
-            req = requests.get(url)
+            req = requests.get(url, timeout=2)
             req_json = req.json()
 
             if not req_json:
