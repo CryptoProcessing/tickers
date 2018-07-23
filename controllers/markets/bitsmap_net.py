@@ -29,8 +29,7 @@ class Bitsmap(BaseTicker):
         for fund in self.fund_id:
             url = 'https://www.bitstamp.net/api/v2/ticker/{}'.format(fund[0])
 
-            req = requests.get(url, timeout=self.get_request_timeout())
-            req_json = req.json()
+            req_json = self.make_request(url)
 
             if not req_json:
                 continue

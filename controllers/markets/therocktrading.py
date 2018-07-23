@@ -23,11 +23,11 @@ class Therocktrading(BaseTicker):
     def get_ticker_info(self):
         url = 'https://api.therocktrading.com/v1/funds/tickers'
 
-        req = requests.get(url, timeout=self.get_request_timeout())
-        req_json = req.json()
+        req_json = self.make_request(url)
 
         if not req_json:
             return []
+
         data = []
         list_fund_id = [f_id for f_id in self.fund_id]
 

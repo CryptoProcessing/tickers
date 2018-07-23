@@ -24,8 +24,7 @@ class Itbit(BaseTicker):
         for fund in self.fund_id:
             url = 'https://api.itbit.com/v1/markets/XBTUSD/ticker'
 
-            req = requests.get(url, timeout=self.get_request_timeout())
-            req_json = req.json()
+            req_json = self.make_request(url)
 
             if not req_json:
                 continue

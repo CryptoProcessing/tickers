@@ -1,7 +1,8 @@
+import requests
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
+from tenacity import retry, stop_after_attempt, wait_fixed, RetryError
 from flask import current_app
-# from ticker import create_app
 
 
 class BaseTicker(metaclass=ABCMeta):
@@ -17,8 +18,13 @@ class BaseTicker(metaclass=ABCMeta):
     def __init__(self, fund_ids=fund_ids, ):
         self.fund_id = fund_ids
 
+    @retry(stop=stop_after_attempt(5), wait=wait_fixed(3))
+    def make_request(self, url):
+        req = requests.get(url, timeout=self._get_request_timeout())
+        return req.json()
+
     @staticmethod
-    def get_request_timeout():
+    def _get_request_timeout():
         return current_app.config.get('REQUEST_TIMEOUT', 5)
 
     def factor(self, fund):
