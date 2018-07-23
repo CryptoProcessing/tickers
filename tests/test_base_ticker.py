@@ -29,3 +29,15 @@ class TestBaseTicker(BaseTestCase):
         f = self.bitfinex_resp.factor(('ethbtc', 'ETH:BTC', 'fdfd'))
 
         self.assertEqual(f, 1)
+
+    def test_default_request_timeout(self):
+        timeout = self.bitfinex_resp.get_request_timeout()
+
+        self.assertEqual(timeout, 5)
+
+    def test_request_timeout(self):
+        self.app.config['REQUEST_TIMEOUT'] = 100
+
+        timeout = self.bitfinex_resp.get_request_timeout()
+
+        self.assertEqual(timeout, 100)
