@@ -23,7 +23,7 @@ class Therocktrading(BaseTicker):
     def get_ticker_info(self):
         url = 'https://api.therocktrading.com/v1/funds/tickers'
 
-        req = requests.get(url, timeout=2)
+        req = requests.get(url, timeout=self.get_request_timeout())
         req_json = req.json()
 
         if not req_json:

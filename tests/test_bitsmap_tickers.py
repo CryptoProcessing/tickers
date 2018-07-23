@@ -1,4 +1,5 @@
 import unittest
+from tests.base import BaseTestCase
 from controllers.markets import bitsmap_net
 from unittest.mock import patch
 from tests.response_mock.response_www_bitstamp_net import bitsmap_expected_response, bitsmap_response_btc_usd, bitsmap_response_eth_usd
@@ -43,8 +44,9 @@ def mocked_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-class TestGdax(unittest.TestCase):
+class TestGdax(BaseTestCase):
     def setUp(self):
+
         self.bitsmap_net_resp = bitsmap_net.Bitsmap(fund_ids=(
             ('btcusd', 'BTC:USD'),
             ('ethusd', 'ETH:USD'),

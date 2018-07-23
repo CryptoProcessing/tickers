@@ -13,7 +13,7 @@ class BaseTestCase(TestCase):
         return app
 
     def setUp(self):
-        app = self.create_app()
+        self.app = self.create_app()
         db.create_all()
         db.session.commit()
 

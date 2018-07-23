@@ -1,4 +1,5 @@
 import unittest
+from tests.base import BaseTestCase
 from controllers.markets import bitfinex
 from unittest.mock import patch
 from tests.response_mock.response_mock import bitfinex_response_btc_usd, bitfinex_response_eth_btc, bitfinex_expected_response
@@ -6,6 +7,7 @@ from tests.response_mock.response_mock import bitfinex_response_btc_usd, bitfine
 
 class MockResponse:
     def __init__(self, json_data, status_code):
+
         self.json_data = json_data
         self.status_code = status_code
 
@@ -40,7 +42,7 @@ def mocked_bitfinex_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-class Testbitfinex(unittest.TestCase):
+class Testbitfinex(BaseTestCase):
     def setUp(self):
         self.bitfinex_resp = bitfinex.Bitfinex(fund_ids=(
             ('btcusd', 'BTC:USD'),

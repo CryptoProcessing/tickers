@@ -1,4 +1,6 @@
 import unittest
+from tests.base import BaseTestCase
+
 from controllers.markets import gdax
 from unittest.mock import patch
 from tests.response_mock.response_mock import gdax_response_btc_usd, gdax_response_eth_btc, gdax_expected_response
@@ -40,8 +42,9 @@ def mocked_gdax_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-class TestGdax(unittest.TestCase):
+class TestGdax(BaseTestCase):
     def setUp(self):
+
         self.gdax_resp = gdax.Gdax(fund_ids=(
             ('BTC-USD', 'BTC:USD'),
             ('ETH-BTC', 'ETH:BTC'),

@@ -1,10 +1,13 @@
 import unittest
+from tests.base import BaseTestCase
+
 from controllers.markets import bitstamp
 from unittest.mock import patch
 from tests.response_mock.response_bitstamp_network import response_btc_usd, response_eth_btc, expected_response
 
 btc_usd_url = 'https://www.bitstamp.net/api/v2/ticker/btcusd/'
 eth_btc_url = 'https://www.bitstamp.net/api/v2/ticker/ethbtc/'
+
 
 class MockResponse:
     def __init__(self, json_data, status_code):
@@ -42,8 +45,9 @@ def mocked_bitstamp_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-class TestBitstamp(unittest.TestCase):
+class TestBitstamp(BaseTestCase):
     def setUp(self):
+
         self.bitstamp_resp = bitstamp.Bitstamp(fund_ids=(
             ('btcusd', 'BTC:USD'),
             ('ethbtc', 'ETH:BTC'),

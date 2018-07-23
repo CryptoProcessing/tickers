@@ -1,4 +1,6 @@
 import unittest
+from tests.base import BaseTestCase
+
 from controllers.markets import itbit_com
 from unittest.mock import patch
 from tests.response_mock.response_itbit_com import itbit_expected_response, itbit_response_btc_usd
@@ -37,29 +39,34 @@ def mocked_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils(BaseTestCase):
+    def setUp(self):
+        super(TestUtils, self).setUp()
+        self.clsinst = itbit_com.Itbit()
+            
     def test_map_fund_ok(self):
-        clsinst = itbit_com.Itbit()
-        mapped_fund = clsinst.map_fund('XBTUSD')
+        
+        mapped_fund = self.clsinst.map_fund('XBTUSD')
 
         self.assertEqual(mapped_fund, 'BTC:USD')
 
     def test_map_fund_not_found(self):
-        clsinst = itbit_com.Itbit()
-        mapped_fund = clsinst.map_fund('BTGUHD')
+        mapped_fund = self.clsinst.map_fund('BTGUHD')
 
         self.assertEqual(mapped_fund, None)
 
     def test_str_todate(self):
-        clsinst = itbit_com.Itbit()
-        mapped_fund = clsinst.str_to_date('2018-02-14T20:34:24.4785988Z')
+        mapped_fund = self.clsinst.str_to_date('2018-02-14T20:34:24.4785988Z')
 
         self.assertTrue(isinstance(mapped_fund, datetime.date))
         self.assertEqual(mapped_fund, datetime.datetime(2018, 2, 14, 20, 34, 24))
 
 
-class TestiIbit(unittest.TestCase):
-
+class TestiIbit(BaseTestCase):
+    def setUp(self):
+        super(TestiIbit, self).setUp()
+        self.itbit_com_resp = itbit_com.Itbit()
+        
     @patch('controllers.markets.itbit_com.requests.get', side_effect=mocked_requests_get)
     def test_itbit_com(self, _):
         itbit_com_resp = itbit_com.Itbit(fund_ids=(
@@ -71,16 +78,14 @@ class TestiIbit(unittest.TestCase):
 
     @patch('controllers.markets.itbit_com.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_itbit_com_resp_none(self, _):
-        itbit_com_resp = itbit_com.Itbit()
-        response = itbit_com_resp.get_ticker_info()
+        response = self.itbit_com_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
     @patch('controllers.markets.itbit_com.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_itbit_com_empty_dict(self, _):
-        itbit_com_resp = itbit_com.Itbit()
-        response = itbit_com_resp.get_ticker_info()
+        response = self.itbit_com_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)

@@ -1,4 +1,6 @@
 import unittest
+from tests.base import BaseTestCase
+
 from controllers.markets import therocktrading
 from unittest.mock import patch
 from tests.response_mock.response_mock import therock_response, therock_expected_response
@@ -35,37 +37,37 @@ def mocked_therock_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils(BaseTestCase):
+    def setUp(self):
+        super(TestUtils, self).setUp()
+        self.clsinst = therocktrading.Therocktrading()
+
     def test_map_fund_ok(self):
-        clsinst = therocktrading.Therocktrading()
-        mapped_fund = clsinst.map_fund('BTCUSD')
-        mapped_fund2 = clsinst.map_fund('ETHBTC')
+        mapped_fund = self.clsinst.map_fund('BTCUSD')
+        mapped_fund2 = self.clsinst.map_fund('ETHBTC')
 
         self.assertEqual(mapped_fund, 'BTC:USD')
         self.assertEqual(mapped_fund2, 'ETH:BTC')
 
     def test_map_fund_not_found(self):
-        clsinst = therocktrading.Therocktrading()
-        mapped_fund = clsinst.map_fund('BTGUHD')
+        mapped_fund = self.clsinst.map_fund('BTGUHD')
 
         self.assertEqual(mapped_fund, None)
 
     def test_str_to_date_ok(self):
-        clsinst = therocktrading.Therocktrading()
-        mapped_fund = clsinst.map_fund('BTCUSD')
-        mapped_fund2 = clsinst.map_fund('ETHBTC')
+        mapped_fund = self.clsinst.map_fund('BTCUSD')
+        mapped_fund2 = self.clsinst.map_fund('ETHBTC')
 
         self.assertEqual(mapped_fund, 'BTC:USD')
         self.assertEqual(mapped_fund2, 'ETH:BTC')
 
     def test_str_todate(self):
-        clsinst = therocktrading.Therocktrading()
-        mapped_fund = clsinst.str_to_date('2017-12-18T16:25:34.205+01:00')
+        mapped_fund = self.clsinst.str_to_date('2017-12-18T16:25:34.205+01:00')
 
         self.assertTrue(isinstance(mapped_fund, datetime.date))
 
 
-class TestTherocktrading(unittest.TestCase):
+class TestTherocktrading(BaseTestCase):
 
     @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get)
     def test_therocktrading(self, _):

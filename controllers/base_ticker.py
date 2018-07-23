@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
+from flask import current_app
+# from ticker import create_app
 
 
 class BaseTicker(metaclass=ABCMeta):
@@ -14,6 +16,10 @@ class BaseTicker(metaclass=ABCMeta):
 
     def __init__(self, fund_ids=fund_ids, ):
         self.fund_id = fund_ids
+
+    @staticmethod
+    def get_request_timeout():
+        return current_app.config.get('REQUEST_TIMEOUT', 5)
 
     def factor(self, fund):
         try:

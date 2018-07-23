@@ -1,10 +1,12 @@
 import unittest
 from controllers.markets import bitfinex
+from tests.base import BaseTestCase
 
 
-class TestBaseTicker(unittest.TestCase):
+class TestBaseTicker(BaseTestCase):
 
     def setUp(self):
+
         self.bitfinex_resp = bitfinex.Bitfinex(fund_ids=(
             ('btcusd', 'BTC:USD', ),
             ('ethbtc', 'ETH:BTC', 1000),

@@ -6,8 +6,6 @@ from ticker.models import db
 from ticker.models import Ticker, Pair, Market
 from tests.base import BaseTestCase
 from controllers.api_controller import PriceApi
-from controllers.base_ticker import BaseTicker
-from controllers.tasks import save_ticker
 
 
 class TestApiController(BaseTestCase):
@@ -149,68 +147,61 @@ class TestApiController(BaseTestCase):
         db.session.add(self.ticker8)
         db.session.commit()
 
+        # with self.app.app_context():
+
+        self.api = PriceApi()
+
     def test_get_without_params_ok(self):
-        api = PriceApi()
-        result = api.query()
+        result = self.api.query()
         self.assertEqual(result, [('BTC:USD', 400.00), ('ETH:USD', 150.0)])
 
     def test_get_timestamp_params_ok(self):
-        api = PriceApi()
-        result = api.query(ts=self.midle_time)
+        result = self.api.query(ts=self.midle_time)
         self.assertEqual(result, [('BTC:USD', 312.50), ('ETH:USD', 125.0)])
 
     def test_get_pair_params_ok(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD')
+        result = self.api.query(pair='BTC:USD')
         self.assertEqual(result, [('BTC:USD', 400.0)])
 
     def test_get_pair_timestamp_params_ok(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD', ts=self.midle_time)
+        result = self.api.query(pair='BTC:USD', ts=self.midle_time)
         self.assertEqual(result, [('BTC:USD', 312.50)])
 
     def test_get_pair_params_not_ok(self):
-        api = PriceApi()
-        result = api.query(pair='BBB:UUU')
+        result = self.api.query(pair='BBB:UUU')
         self.assertEqual(result, [])
 
     def test_get_pair_market_params_ok(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD', market=2)
-        result2 = api.query(pair='ETH:USD', market=2)
+        result = self.api.query(pair='BTC:USD', market=2)
+        result2 = self.api.query(pair='ETH:USD', market=2)
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
     def test_get_pair_market_params_string_ok(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD', market='2')
-        result2 = api.query(pair='ETH:USD', market='2')
+        result = self.api.query(pair='BTC:USD', market='2')
+        result2 = self.api.query(pair='ETH:USD', market='2')
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
     def test_get_pair_market_params_fail(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD', market=2000)
-        result2 = api.query(pair='ETH:USD', market=2000)
+        result = self.api.query(pair='BTC:USD', market=2000)
+        result2 = self.api.query(pair='ETH:USD', market=2000)
         self.assertEqual(result, [])
         self.assertEqual(result2, [])
 
     def test_get_pair_alias_market_params_ok(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD', market='alias2')
-        result2 = api.query(pair='ETH:USD', market='alias2')
+        result = self.api.query(pair='BTC:USD', market='alias2')
+        result2 = self.api.query(pair='ETH:USD', market='alias2')
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
     def test_get_pair_alias_market_params_failk(self):
-        api = PriceApi()
-        result = api.query(pair='BTC:USD', market='not_used_alias')
-        result2 = api.query(pair='ETH:USD', market='not_used_alias')
+        result = self.api.query(pair='BTC:USD', market='not_used_alias')
+        result2 = self.api.query(pair='ETH:USD', market='not_used_alias')
         self.assertEqual(result, [])
         self.assertEqual(result2, [])
 
     def test_response(self):
-
         response = self.client.get(
             '/api/v1/data/price',
             query_string=dict(pair='BTC:USD', ts=self.midle_time),
@@ -229,6 +220,7 @@ class TestApiController(BaseTestCase):
                                 {'name': '2nd best market in the world', 'id': 2, 'alias': 'alias2'}])
 
     def test_get_version(self):
+
         response = self.client.get(
             '/api/version'
         )

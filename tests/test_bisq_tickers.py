@@ -1,4 +1,5 @@
 import unittest
+from tests.base import BaseTestCase
 from controllers.markets import bisq_network
 from unittest.mock import patch, Mock
 from tests.response_mock.response_bisq_network import response_btc_usd, response_eth_btc
@@ -17,7 +18,7 @@ class MockResponse:
         return self.json_data
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils(BaseTestCase):
 
     def test_str_todate(self):
         clsinst = bisq_network.Bisq()
@@ -56,7 +57,7 @@ def mocked_requests_get_empty__dict_resp(*args, **kwargs):
 dtm = datetime.datetime.now()
 
 
-class TestBisq(unittest.TestCase):
+class TestBisq(BaseTestCase):
     def setUp(self):
         self.bitsmap_net_resp = bisq_network.Bisq(fund_ids=(
             ('btc_usd', 'BTC:USD'),
