@@ -15,7 +15,7 @@ class Cexio(BaseTicker):
         ('ETH:BTC', 'ETH:BTC'),
         ('ETH:USD', 'ETH:USD'),
         ('ETH:USD', 'ETH:GGT', 10),
-        ('BCH:USD', 'BCH:USD'), # Bitcoin Cash / BCC
+        # ('BCH:USD', 'BCH:USD'), # Bitcoin Cash / BCC
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -35,15 +35,18 @@ class Cexio(BaseTicker):
         list_fund_id = [f_id for f_id in self.fund_id]
 
         for lf in list_fund_id:
-            fund_data =[
-               {'ask': float(f['ask']) * self.factor(lf),
-                'bid': float(f['bid']) * self.factor(lf),
-                'date': self.str_to_date(f['timestamp']),
-                'fund_id': lf[1],
-                }
-               for f in req_json['data'] if f['pair'] in [lf[0]]
-           ]
-            data.extend(fund_data)
+            try:
+                fund_data =[
+                   {'ask': float(f['ask']) * self.factor(lf),
+                    'bid': float(f['bid']) * self.factor(lf),
+                    'date': self.str_to_date(f['timestamp']),
+                    'fund_id': lf[1],
+                    }
+                   for f in req_json['data'] if f['pair'] in [lf[0]]
+               ]
+                data.extend(fund_data)
+            except KeyError:
+                pass
         return data
 
     def str_to_date(self, strdate):

@@ -18,7 +18,7 @@ class Bitstamp(BaseTicker):
         ('ethusd', 'ETH:USD'),
         ('ethusd', 'ETH:GGT', 10),
         ('ltcusd', 'LTC:USD'),
-        ('bchusd', 'BCH:USD'),
+        # ('bchusd', 'BCH:USD'),
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -34,15 +34,17 @@ class Bitstamp(BaseTicker):
 
             if not req_json:
                 continue
+            try:
+                fund_data = {
+                    'ask': float(req_json['ask']) * self.factor(fund),
+                    'bid': float(req_json['bid']) * self.factor(fund),
+                    'date': self.str_to_date(req_json.get('timestamp')),
+                    'fund_id': fund[1],
+                }
 
-            fund_data = {
-                'ask': float(req_json['ask']) * self.factor(fund),
-                'bid': float(req_json['bid']) * self.factor(fund),
-                'date': self.str_to_date(req_json.get('timestamp')),
-                'fund_id': fund[1],
-            }
-
-            data.append(fund_data)
+                data.append(fund_data)
+            except KeyError:
+                pass
         return data
 
     def str_to_date(self, strdate):

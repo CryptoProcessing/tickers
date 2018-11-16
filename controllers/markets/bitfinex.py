@@ -17,7 +17,7 @@ class Bitfinex(BaseTicker):
         ('ethusd', 'ETH:USD'),
         ('ethusd', 'ETH:GGT', 10),
         ('ltcusd', 'LTC:USD'),  # Litecoin
-        ('bchusd', 'BCH:USD'),  # Bitcoin Cash / BCC
+        # ('bchusd', 'BCH:USD'),  # Bitcoin Cash / BCC
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -33,15 +33,17 @@ class Bitfinex(BaseTicker):
 
             if not req_json:
                 continue
+            try:
+                fund_data = {
+                    'ask': float(req_json['ask']) * self.factor(fund),
+                    'bid': float(req_json['bid']) * self.factor(fund),
+                    'date': self.str_to_date(req_json['timestamp']),
+                    'fund_id': fund[1],
+                }
+                data.append(fund_data)
+            except KeyError:
+                pass
 
-            fund_data = {
-                'ask': float(req_json['ask']) * self.factor(fund),
-                'bid': float(req_json['bid']) * self.factor(fund),
-                'date': self.str_to_date(req_json['timestamp']),
-                'fund_id': fund[1],
-            }
-
-            data.append(fund_data)
         return data
 
     def str_to_date(self, strdate):

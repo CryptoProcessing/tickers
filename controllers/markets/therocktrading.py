@@ -32,16 +32,19 @@ class Therocktrading(BaseTicker):
         list_fund_id = [f_id for f_id in self.fund_id]
 
         for lf in list_fund_id:
-            fund_data = [
-                {'ask': f['ask'] * self.factor(lf),
-                 'bid': f['bid'] * self.factor(lf),
-                 'date': self.str_to_date(f['date']),
-                 'fund_id':lf[1],
-                   }
-                for f in req_json['tickers'] if f['fund_id'] in [lf[0]]
-            ]
+            try:
+                fund_data = [
+                    {'ask': f['ask'] * self.factor(lf),
+                     'bid': f['bid'] * self.factor(lf),
+                     'date': self.str_to_date(f['date']),
+                     'fund_id':lf[1],
+                       }
+                    for f in req_json['tickers'] if f['fund_id'] in [lf[0]]
+                ]
 
-            data.extend(fund_data)
+                data.extend(fund_data)
+            except KeyError:
+                pass
         return data
     
     def str_to_date(self, strdate):

@@ -17,7 +17,7 @@ class Bitsmap(BaseTicker):
         ('ethbtc', 'ETH:BTC'),
         ('ethusd', 'ETH:USD'),
         ('ltcusd', 'LTC:USD'),
-        ('bchusd', 'BCH:USD'), # Bitcoin Cash / BCC
+        # ('bchusd', 'BCH:USD'), # Bitcoin Cash / BCC
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -33,15 +33,17 @@ class Bitsmap(BaseTicker):
 
             if not req_json:
                 continue
+            try:
+                fund_data = {
+                    'ask': float(req_json['ask']) * self.factor(fund),
+                    'bid': float(req_json['bid']) * self.factor(fund),
+                    'date': self.str_to_date(req_json['timestamp']),
+                    'fund_id': fund[1],
+                }
 
-            fund_data = {
-                'ask': float(req_json['ask']) * self.factor(fund),
-                'bid': float(req_json['bid']) * self.factor(fund),
-                'date': self.str_to_date(req_json['timestamp']),
-                'fund_id': fund[1],
-            }
-
-            data.append(fund_data)
+                data.append(fund_data)
+            except KeyError:
+                pass
         return data
 
     def str_to_date(self, strdate):
