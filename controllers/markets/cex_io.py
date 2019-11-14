@@ -2,6 +2,8 @@ from controllers.base_ticker import BaseTicker
 import requests
 import datetime
 
+from controllers.exchange_rates import openexchangerates
+
 
 class Cexio(BaseTicker):
     """
@@ -13,6 +15,8 @@ class Cexio(BaseTicker):
         ('BTC:USD', 'BTC:USD'),
         ('BTC:EUR', 'BTC:EUR'),
         ('BTC:GBP', 'BTC:GBP'),
+        ('BTC:USD', 'BTC:RUB', openexchangerates),
+        ('BTC:USD', 'BTC:AUD', openexchangerates),
         ('BTC:USD', 'BTC:GGT', 10),
         ('ETH:BTC', 'ETH:BTC'),
         ('ETH:USD', 'ETH:USD'),

@@ -1,6 +1,6 @@
-from controllers.base_ticker import BaseTicker
-import requests
 import datetime
+from controllers.base_ticker import BaseTicker
+from controllers.exchange_rates import openexchangerates
 
 
 class Bitstamp(BaseTicker):
@@ -14,6 +14,9 @@ class Bitstamp(BaseTicker):
     fund_ids = (
         ('btcusd', 'BTC:USD'),
         ('btceur', 'BTC:EUR'),
+        ('btcusd', 'BTC:GBP', openexchangerates),
+        ('btcusd', 'BTC:RUB', openexchangerates),
+        ('btcusd', 'BTC:AUD', openexchangerates),
         ('btcusd', 'BTC:GGT', 10),
         ('ethbtc', 'ETH:BTC'),
         ('ethusd', 'ETH:USD'),

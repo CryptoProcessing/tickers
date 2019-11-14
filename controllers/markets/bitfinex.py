@@ -1,6 +1,6 @@
-from controllers.base_ticker import BaseTicker
-import requests
 import datetime
+from controllers.base_ticker import BaseTicker
+from controllers.exchange_rates import openexchangerates
 
 
 class Bitfinex(BaseTicker):
@@ -16,6 +16,8 @@ class Bitfinex(BaseTicker):
         ('btcusd', 'BTC:USD'),
         ('btceur', 'BTC:EUR'),
         ('btcgbp', 'BTC:GBP'),
+        ('btcusd', 'BTC:RUB', openexchangerates),
+        ('btcusd', 'BTC:AUD', openexchangerates),
         ('ethbtc', 'ETH:BTC'),
         ('btcusd', 'BTC:GGT', 10),
         ('ethusd', 'ETH:USD'),

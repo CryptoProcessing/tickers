@@ -1,5 +1,5 @@
 from controllers.base_ticker import BaseTicker
-import requests
+from controllers.exchange_rates import openexchangerates
 
 
 class Therocktrading(BaseTicker):
@@ -10,6 +10,9 @@ class Therocktrading(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTCUSD', 'BTC:USD',),
+        ('BTCUSD', 'BTC:RUB', openexchangerates),
+        ('BTCUSD', 'BTC:GBP', openexchangerates),
+        ('BTCUSD', 'BTC:AUD', openexchangerates),
         ('BTCEUR', 'BTC:EUR',),
         ('BTCUSD', 'BTC:GGT', 10),
 

@@ -1,6 +1,5 @@
 from controllers.base_ticker import BaseTicker
-import requests
-import datetime
+from controllers.exchange_rates import openexchangerates
 
 
 class Bisq(BaseTicker):
@@ -13,10 +12,11 @@ class Bisq(BaseTicker):
     fund_ids = (
         ('btc_usd', 'BTC:USD'),
         ('btc_usd', 'BTC:GGT', 10),
-        ('eth_btc', 'ETH:BTC'),
         ('btc_eur', 'BTC:EUR'),
         ('btc_gbp', 'BTC:GBP'),
         ('btc_aud', 'BTC:AUD'),
+        ('btc_usd', 'BTC:RUB', openexchangerates),
+        ('eth_btc', 'ETH:BTC'),
     )
 
     def __init__(self, fund_ids=fund_ids):
