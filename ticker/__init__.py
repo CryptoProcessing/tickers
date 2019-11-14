@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint
 from ticker.models import db
-from ticker.extensions import rest_api, app_scheduler, sentry
+from ticker.extensions import rest_api, app_scheduler, sentry, cache
 from controllers.api_controller import PriceApi, MarketApi, VersionApi
 
 from celery import Celery
@@ -35,6 +35,7 @@ def create_app(object_name, register_blueprints=True):
     db.init_app(app)
 
     sentry.init_app(app)
+    cache.init_app(app)
 
     if register_blueprints:
 

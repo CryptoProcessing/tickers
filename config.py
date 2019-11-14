@@ -2,7 +2,7 @@ import os
 import raven
 
 
-class SchedulerConfig(object):
+class SchedulerConfig:
     JOBS = [
         {
             'id': 'ticker_job',
@@ -27,11 +27,19 @@ class SchedulerConfig(object):
     SCHEDULER_API_ENABLED = True
 
 
-class Config(object):
+class Config:
     SECRET_KEY = 'e21fa0fa3e0d28505c5d1b795495b2ee08420c71d036a9e2dee04cd0818ba70e'
 
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+    OPENEXCHANGERATES_API_KEY = '235dc0daf7ef41608fbdbedaa9c47a76'
+
+    CACHE_TYPE = 'redis'
+    CACHE_DEFAULT_TIMEOUT = 3600  # one hour
+    CACHE_KEY_PREFIX = '_cache'
+    CACHE_REDIS_HOST = 'localhost'
+    CACHE_REDIS_PORT = '6379'
+    CACHE_REDIS_URL = 'redis://localhost:6379/0'
 
 
 class ProdConfig(Config, SchedulerConfig):
