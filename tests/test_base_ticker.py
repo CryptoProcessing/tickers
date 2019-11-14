@@ -5,6 +5,7 @@ from unittest.mock import patch, Mock, MagicMock
 from controllers.markets import bitfinex
 from tests.base import BaseTestCase
 from tenacity import wait_none
+from controllers.exchange_rates import openexchangerates
 
 
 class MockResponse:
@@ -15,10 +16,36 @@ class MockResponse:
         return self.json_data
 
 
+class MockResponseExch:
+    def __init__(self, json_data, status_code):
+        self.json_data = json_data
+        self.status_code = status_code
+
+    def json(self):
+        return self.json_data
+
+
 def mock_request_get(*args, **kwargs):
 
     mock_response = kwargs
     return MockResponse(mock_response)
+
+
+def mocked_open_exchange_rates(*args, **kwargs):
+    if 'https://openexchangerates.org/api/' in args[0]:
+        return MockResponseExch({
+            "disclaimer": "Usage subject to terms: https://openexchangerates.org/terms",
+            "license": "https://openexchangerates.org/license",
+            "timestamp": 1573725600,
+            "base": "USD",
+            "rates": {
+                "AUD": 1.471887,
+                "GBP": 0.778172,
+                "RUB": 64.13375
+            }
+        }, 200)
+
+    return MockResponseExch(None, 404)
 
 
 class TestBaseTicker(BaseTestCase):
@@ -83,3 +110,33 @@ class TestBaseTicker(BaseTestCase):
             req = self.bitfinex_resp.make_request(url='url')
 
         self.assertEqual(mock_req.call_count, 5)
+
+    @patch('controllers.exchange_rates.requests.get',
+           side_effect=mocked_open_exchange_rates)
+    def test_exch_rates(self, m):
+        rates = openexchangerates()
+        self.assertEqual(rates, {
+                "AUD": 1.471887,
+                "GBP": 0.778172,
+                "RUB": 64.13375
+            })
+
+    def test_exch_rates_fail(self):
+        with self.assertRaises(ValueError):
+            openexchangerates(base='ETH')
+
+    @patch('controllers.exchange_rates.requests.get',
+           side_effect=mocked_open_exchange_rates)
+    def test_factor__exchange_success(self, m):
+
+        f = self.bitfinex_resp.factor(('btcusd', 'BTC:RUB', openexchangerates))
+
+        self.assertEqual(f, 64.13375)
+
+    @patch('controllers.exchange_rates.requests.get',
+           side_effect=mocked_open_exchange_rates)
+    def test_factor__exchange_success_GBP(self, m):
+
+        f = self.bitfinex_resp.factor(('btcgbp', 'BTC:GBP', openexchangerates))
+
+        self.assertEqual(f, 0.778172)

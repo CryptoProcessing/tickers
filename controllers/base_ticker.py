@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import requests
 from abc import ABCMeta, abstractmethod
 from datetime import datetime
@@ -27,11 +29,28 @@ class BaseTicker(metaclass=ABCMeta):
     def _get_request_timeout():
         return current_app.config.get('REQUEST_TIMEOUT', 5)
 
-    def factor(self, fund):
-        try:
-            return int(fund[2])
-        except (IndexError, ValueError):
+    def factor(self, fund: Tuple) -> int:
+        """
+        Получает валютный коэффициент.
+
+        :param fund: Валютный кортеж, для которой получаем коэффициент.
+        :return:
+        """
+        if len(fund) < 3:
             return 1
+
+        nominal = fund[2]
+
+        if isinstance(nominal, int):
+            return int(nominal)
+        elif callable(nominal):
+            currencies = fund[1].split(':')
+            return nominal(base=currencies[0])[currencies[1]]
+        else:
+            return 1
+
+        # try:
+        # except (IndexError, ValueError):
 
     @abstractmethod
     def get_ticker_info(self):
