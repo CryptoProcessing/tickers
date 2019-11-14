@@ -10,6 +10,7 @@ class Therocktrading(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTCUSD', 'BTC:USD',),
+        ('BTCEUR', 'BTC:EUR',),
         ('BTCUSD', 'BTC:GGT', 10),
 
         ('ETHBTC', 'ETH:BTC',),

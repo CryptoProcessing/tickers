@@ -13,6 +13,7 @@ class Bitstamp(BaseTicker):
     # GGT  is token = 10$
     fund_ids = (
         ('btcusd', 'BTC:USD'),
+        ('btceur', 'BTC:EUR'),
         ('btcusd', 'BTC:GGT', 10),
         ('ethbtc', 'ETH:BTC'),
         ('ethusd', 'ETH:USD'),

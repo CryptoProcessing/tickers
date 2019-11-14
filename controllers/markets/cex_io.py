@@ -11,6 +11,8 @@ class Cexio(BaseTicker):
     # GGT  is token = 1$
     fund_ids = (
         ('BTC:USD', 'BTC:USD'),
+        ('BTC:EUR', 'BTC:EUR'),
+        ('BTC:GBP', 'BTC:GBP'),
         ('BTC:USD', 'BTC:GGT', 10),
         ('ETH:BTC', 'ETH:BTC'),
         ('ETH:USD', 'ETH:USD'),
@@ -23,7 +25,7 @@ class Cexio(BaseTicker):
         self.fund_id = fund_ids
 
     def get_ticker_info(self):
-        url = 'https://cex.io/api/tickers/BTC/USD'
+        url = 'https://cex.io/api/tickers/BTC/USD/GBP/EUR'
 
         req_json = self.make_request(url)
 

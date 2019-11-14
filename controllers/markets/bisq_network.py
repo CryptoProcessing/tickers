@@ -14,6 +14,9 @@ class Bisq(BaseTicker):
         ('btc_usd', 'BTC:USD'),
         ('btc_usd', 'BTC:GGT', 10),
         ('eth_btc', 'ETH:BTC'),
+        ('btc_eur', 'BTC:EUR'),
+        ('btc_gbp', 'BTC:GBP'),
+        ('btc_aud', 'BTC:AUD'),
     )
 
     def __init__(self, fund_ids=fund_ids):

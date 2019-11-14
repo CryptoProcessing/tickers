@@ -6,12 +6,16 @@ import datetime
 class Bitfinex(BaseTicker):
     """
     https://api.bitfinex.com/v1/pubticker/btcusd
+    curl https://api-pub.bitfinex.com/v2/tickers?symbols=ALL
+
     """
     date_fmt = '%Y-%m-%dT%H:%M%S.%fZ'
 
     # GGT  is token = 1$
     fund_ids = (
         ('btcusd', 'BTC:USD'),
+        ('btceur', 'BTC:EUR'),
+        ('btcgbp', 'BTC:GBP'),
         ('ethbtc', 'ETH:BTC'),
         ('btcusd', 'BTC:GGT', 10),
         ('ethusd', 'ETH:USD'),

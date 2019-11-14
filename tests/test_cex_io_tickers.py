@@ -17,21 +17,21 @@ class MockResponse:
 
 
 def mocked_cexio_requests_get(*args, **kwargs):
-    if args[0] == 'https://cex.io/api/tickers/BTC/USD':
+    if args[0] == 'https://cex.io/api/tickers/BTC/USD/GBP/EUR':
         return MockResponse(cexio_response, 200)
 
     return MockResponse(None, 404)
 
 
 def mocked_cexio_requests_get_none_resp(*args, **kwargs):
-    if args[0] == 'https://cex.io/api/tickers/BTC/USD':
+    if args[0] == 'https://cex.io/api/tickers/BTC/USD/GBP/EUR':
         return MockResponse(None, 404)
 
     return MockResponse(None, 404)
 
 
 def mocked_cexio_requests_get_empty__dict_resp(*args, **kwargs):
-    if args[0] == 'https://cex.io/api/tickers/BTC/USD':
+    if args[0] == 'https://cex.io/api/tickers/BTC/USD/GBP/EUR':
         return MockResponse({}, 200)
 
     return MockResponse(None, 404)
@@ -72,9 +72,9 @@ class TestUtils(BaseTestCase):
         self.assertTrue(mapped_fund, datetime.datetime(2017, 12, 29, 18, 29, 38))
 
 
-class Testcexio(BaseTestCase):
+class TestCexIo(BaseTestCase):
 
-    @patch('controllers.markets.cex_io.requests.get', side_effect=mocked_cexio_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_cexio_requests_get)
     def test_cexio(self, _):
         cexio_trading = cex_io.Cexio(fund_ids=(
             ('BTC:USD', 'BTC:USD'),
