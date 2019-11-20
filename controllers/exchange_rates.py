@@ -3,7 +3,7 @@ from flask import current_app
 from ticker.extensions import cache
 
 
-@cache.memoize(timeout=2700)  # 45 minutes
+@cache.memoize(timeout=7320)  # 45 minutes
 def openexchangerates(base: str = 'BTC'):
     """
 
