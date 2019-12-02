@@ -32,7 +32,7 @@ class Config:
 
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-    OPENEXCHANGERATES_API_KEY = '235dc0daf7ef41608fbdbedaa9c47a76'
+    OPENEXCHANGERATES_API_KEY = '081be513ea2d4d1ea394bf528ecb137f'
 
     CACHE_TYPE = 'redis'
     CACHE_DEFAULT_TIMEOUT = 3600  # one hour
