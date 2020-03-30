@@ -67,7 +67,7 @@ class TestiIbit(BaseTestCase):
         super(TestiIbit, self).setUp()
         self.itbit_com_resp = itbit_com.Itbit()
         
-    @patch('controllers.markets.itbit_com.requests.get', side_effect=mocked_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get)
     def test_itbit_com(self, _):
         itbit_com_resp = itbit_com.Itbit(fund_ids=(
             ('XBTUSD', 'BTC:USD'),
@@ -76,14 +76,14 @@ class TestiIbit(BaseTestCase):
 
         self.assertEqual(response, itbit_expected_response)
 
-    @patch('controllers.markets.itbit_com.requests.get', side_effect=mocked_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_itbit_com_resp_none(self, _):
         response = self.itbit_com_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.itbit_com.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_itbit_com_empty_dict(self, _):
         response = self.itbit_com_resp.get_ticker_info()
         expected_response = []

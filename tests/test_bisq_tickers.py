@@ -65,7 +65,7 @@ class TestBisq(BaseTestCase):
         ))
 
     @patch('controllers.base_ticker.datetime', Mock(now=lambda: dtm))
-    @patch('controllers.markets.bisq_network.requests.get', side_effect=mocked_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get)
     def test_BISQ_net(self, _):
         expected_response = [
             {'ask': 9468.36000000,
@@ -82,14 +82,14 @@ class TestBisq(BaseTestCase):
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bisq_network.requests.get', side_effect=mocked_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_bitsmap_net_resp_none(self, _):
         response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bisq_network.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_bitsmap_net_empty_dict(self, _):
         response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []

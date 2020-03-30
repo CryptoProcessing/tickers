@@ -49,21 +49,21 @@ class Testbitfinex(BaseTestCase):
             ('ethbtc', 'ETH:BTC'),
         ))
 
-    @patch('controllers.markets.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_bitfinex_requests_get)
     def test_bitfinex(self, _):
 
         response = self.bitfinex_resp.get_ticker_info()
 
         self.assertEqual(response, bitfinex_expected_response)
 
-    @patch('controllers.markets.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_bitfinex_requests_get_none_resp)
     def test_bitfinex_resp_none(self, _):
         response = self.bitfinex_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bitfinex.requests.get', side_effect=mocked_bitfinex_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_bitfinex_requests_get_empty__dict_resp)
     def test_bitfinex_empty_dict(self, _):
         response = self.bitfinex_resp.get_ticker_info()
         expected_response = []
