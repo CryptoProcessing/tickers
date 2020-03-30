@@ -69,7 +69,7 @@ class TestUtils(BaseTestCase):
 
 class TestTherocktrading(BaseTestCase):
 
-    @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_therock_requests_get)
     def test_therocktrading(self, _):
 
         therock_trading = therocktrading.Therocktrading(fund_ids=(
@@ -80,7 +80,7 @@ class TestTherocktrading(BaseTestCase):
 
         self.assertEqual(response, therock_expected_response)
 
-    @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_therock_requests_get_none_resp)
     def test_therocktrading_none(self, _):
 
         therock_trading = therocktrading.Therocktrading()
@@ -89,7 +89,7 @@ class TestTherocktrading(BaseTestCase):
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.therocktrading.requests.get', side_effect=mocked_therock_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_therock_requests_get_empty__dict_resp)
     def test_therocktrading_empty_dict(self, _):
 
         therock_trading = therocktrading.Therocktrading()

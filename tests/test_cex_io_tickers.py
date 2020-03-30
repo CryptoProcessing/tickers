@@ -84,7 +84,7 @@ class TestCexIo(BaseTestCase):
 
         self.assertEqual(response, cexio_expected_response)
 
-    @patch('controllers.markets.cex_io.requests.get', side_effect=mocked_cexio_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_cexio_requests_get_none_resp)
     def test_cexio_none(self, _):
 
         cexio_trading = cex_io.Cexio()
@@ -93,7 +93,7 @@ class TestCexIo(BaseTestCase):
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.cex_io.requests.get', side_effect=mocked_cexio_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_cexio_requests_get_empty__dict_resp)
     def test_cexio_empty_dict(self, _):
 
         cexio_trading = cex_io.Cexio()

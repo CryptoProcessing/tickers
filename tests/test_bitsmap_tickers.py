@@ -52,21 +52,21 @@ class TestGdax(BaseTestCase):
             ('ethusd', 'ETH:USD'),
         ))
 
-    @patch('controllers.markets.bitsmap_net.requests.get', side_effect=mocked_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get)
     def test_bitsmap_net(self, _):
 
         response = self.bitsmap_net_resp.get_ticker_info()
 
         self.assertEqual(response, bitsmap_expected_response)
 
-    @patch('controllers.markets.bitsmap_net.requests.get', side_effect=mocked_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get_none_resp)
     def test_bitsmap_net_resp_none(self, _):
         response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bitsmap_net.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_requests_get_empty__dict_resp)
     def test_bitsmap_net_empty_dict(self, _):
         response = self.bitsmap_net_resp.get_ticker_info()
         expected_response = []

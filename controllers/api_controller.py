@@ -121,3 +121,27 @@ class VersionApi(MethodView):
         result = get_version().split('\n')
 
         return make_response(jsonify(result)), 200
+
+
+class CheckerApi(MethodView):
+
+    def get(self, **kwargs):
+        """
+        Проверка наличия в базе запесей за последние 'time_shift' минут
+
+        Использование:
+
+        GET /api/check?time_shift=5
+        параметр time_shift по умолчанию равен 5 минутам.
+        """
+        query_string = request.args
+        time_shift = query_string.get('time_shift', 5)
+        try:
+            time_shift = int(time_shift)
+        except Exception as e:
+            return make_response('Неверный формат time_shift'), 400
+
+        min_date = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_shift)
+        result = Ticker.query.filter(Ticker.created_at > min_date).count()
+
+        return make_response(jsonify(result)), 200

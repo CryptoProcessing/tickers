@@ -50,20 +50,20 @@ class TestGdax(BaseTestCase):
             ('ETH-BTC', 'ETH:BTC'),
         ))
 
-    @patch('controllers.markets.gdax.requests.get', side_effect=mocked_gdax_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_gdax_requests_get)
     def test_gdax(self, _):
         response = self.gdax_resp.get_ticker_info()
 
         self.assertEqual(response, gdax_expected_response)
 
-    @patch('controllers.markets.gdax.requests.get', side_effect=mocked_gdax_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_gdax_requests_get_none_resp)
     def test_gdax_resp_none(self, _):
         response = self.gdax_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.gdax.requests.get', side_effect=mocked_gdax_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_gdax_requests_get_empty__dict_resp)
     def test_gdax_empty_dict(self, _):
         response = self.gdax_resp.get_ticker_info()
         expected_response = []

@@ -53,20 +53,20 @@ class TestBitstamp(BaseTestCase):
             ('ethbtc', 'ETH:BTC'),
         ))
 
-    @patch('controllers.markets.bitstamp.requests.get', side_effect=mocked_bitstamp_requests_get)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_bitstamp_requests_get)
     def test_bitstamp(self, _):
         response = self.bitstamp_resp.get_ticker_info()
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bitstamp.requests.get', side_effect=mocked_bitstamp_requests_get_none_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_bitstamp_requests_get_none_resp)
     def test_bitstamp_resp_none(self, _):
         response = self.bitstamp_resp.get_ticker_info()
         expected_response = []
 
         self.assertEqual(response, expected_response)
 
-    @patch('controllers.markets.bitstamp.requests.get', side_effect=mocked_bitstamp_requests_get_empty__dict_resp)
+    @patch('controllers.base_ticker.requests.get', side_effect=mocked_bitstamp_requests_get_empty__dict_resp)
     def test_bitstamp_empty_dict(self, _):
         response = self.bitstamp_resp.get_ticker_info()
         expected_response = []
