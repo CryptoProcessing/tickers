@@ -1,6 +1,6 @@
 import datetime
 from controllers.utils import get_version
-from flask import request, make_response, jsonify
+from flask import request, make_response, jsonify, Response
 from flask.views import MethodView
 from ticker.models import Ticker, Pair, Market
 from sqlalchemy.sql import func
@@ -144,4 +144,9 @@ class CheckerApi(MethodView):
         min_date = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_shift)
         result = Ticker.query.filter(Ticker.created_at > min_date).count()
 
-        return make_response(jsonify(result)), 200
+        help_string = "# HELP saved_tickers_count The number of stored records" \
+                      " in the DB for the last n minutes.\n" \
+                      "# TYPE saved_tickers_count counter\n"
+        metric = "{} saved_tickers_count{{minutes={}}} {}\n".format(
+            help_string, time_shift, result)
+        return Response(metric, mimetype='text/plain; version=0.0.4')
