@@ -137,7 +137,7 @@ class CheckerApi(MethodView):
         result = Ticker.query.count()
 
         help_string = "# HELP saved_tickers_count The number of stored records" \
-                      " in the DB for the last n minutes.\n" \
+                      " in the DB.\n" \
                       "# TYPE saved_tickers_count counter\n"
         metric = "{} saved_tickers_count {}\n".format(
             help_string, result)
