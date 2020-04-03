@@ -131,22 +131,14 @@ class CheckerApi(MethodView):
 
         Использование:
 
-        GET /api/check?time_shift=5
-        параметр time_shift по умолчанию равен 5 минутам.
+        GET /api/check
         """
-        query_string = request.args
-        time_shift = query_string.get('time_shift', 5)
-        try:
-            time_shift = int(time_shift)
-        except Exception as e:
-            return make_response('Неверный формат time_shift'), 400
 
-        min_date = datetime.datetime.utcnow() - datetime.timedelta(minutes=time_shift)
-        result = Ticker.query.filter(Ticker.created_at > min_date).count()
+        result = Ticker.query.count()
 
         help_string = "# HELP saved_tickers_count The number of stored records" \
                       " in the DB for the last n minutes.\n" \
                       "# TYPE saved_tickers_count counter\n"
-        metric = "{} saved_tickers_count{{minutes={}}} {}\n".format(
-            help_string, time_shift, result)
+        metric = "{} saved_tickers_count {}\n".format(
+            help_string, result)
         return Response(metric, mimetype='text/plain; version=0.0.4')
