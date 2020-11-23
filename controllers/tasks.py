@@ -1,6 +1,7 @@
 import os
 
 from controllers.markets.binance import Binance
+from controllers.markets.kraken import Kraken
 from controllers.markets.therocktrading import Therocktrading
 from controllers.markets.gdax import Gdax
 from controllers.markets.bitfinex import Bitfinex
@@ -25,6 +26,7 @@ MAP_PROVIDER = {
     'bisq.network': Bisq(),
     'bitstamp.net': Bitstamp(),
     'binance.com': Binance(),
+    'kraken.com': Kraken(),
 }
 
 env = os.environ.get('TICKER_ENV', 'prod')
@@ -35,7 +37,7 @@ celery = make_celery(app)
 
 def ticker_job():
     for mp in MAP_PROVIDER:
-        save_ticker.delay(mp)   # FIXME: delay
+        save_ticker.delay(mp)
 
 
 @celery.task()
