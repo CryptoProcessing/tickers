@@ -1,4 +1,7 @@
 import os
+
+from controllers.markets.binance import Binance
+from controllers.markets.kraken import Kraken
 from controllers.markets.therocktrading import Therocktrading
 from controllers.markets.gdax import Gdax
 from controllers.markets.bitfinex import Bitfinex
@@ -22,6 +25,8 @@ MAP_PROVIDER = {
     'itbit.com': Itbit(),
     'bisq.network': Bisq(),
     'bitstamp.net': Bitstamp(),
+    'binance.com': Binance(),
+    'kraken.com': Kraken(),
 }
 
 env = os.environ.get('TICKER_ENV', 'prod')
