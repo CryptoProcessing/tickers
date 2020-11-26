@@ -1,11 +1,9 @@
-import unittest
-import json
 import requests
-from unittest.mock import patch, Mock, MagicMock
+from unittest.mock import patch
 from controllers.markets import bitfinex
 from tests.base import BaseTestCase
 from tenacity import wait_none
-from controllers.exchange_rates import openexchangerates
+from controllers.exchange_rates import openexchangerates, ecb
 
 
 class MockResponse:
@@ -23,6 +21,15 @@ class MockResponseExch:
 
     def json(self):
         return self.json_data
+
+
+class MockResponseEcb:
+    def __init__(self, text, status_code):
+        self.status_code = status_code
+        self.text = text
+
+    def text(self):
+        return self.text
 
 
 def mock_request_get(*args, **kwargs):
@@ -46,6 +53,22 @@ def mocked_open_exchange_rates(*args, **kwargs):
         }, 200)
 
     return MockResponseExch(None, 404)
+
+
+def mocked_ecb_xml(*args, **kwargs):
+    return MockResponseEcb('''<gesmes:Envelope xmlns:gesmes="http://www.gesmes.org/xml/2002-08-01" 
+            xmlns="http://www.ecb.int/vocabulary/2002-08-01/eurofxref">
+                <gesmes:subject>Reference rates</gesmes:subject>
+                <gesmes:Sender>
+                <gesmes:name>European Central Bank</gesmes:name>
+                    </gesmes:Sender>
+                        <Cube>
+                            <Cube time="2020-11-26">
+                            <Cube currency="USD" rate="1.600"/>
+                            <Cube currency="JPY" rate="124.04"/>
+                        </Cube>
+                    </Cube>
+                </gesmes:Envelope>''', 200)
 
 
 class TestBaseTicker(BaseTestCase):
@@ -140,3 +163,9 @@ class TestBaseTicker(BaseTestCase):
         f = self.bitfinex_resp.factor(('btcgbp', 'BTC:GBP', openexchangerates))
 
         self.assertEqual(f, 0.778172)
+
+    @patch('controllers.exchange_rates.requests.get', side_effect=mocked_ecb_xml)
+    def test_ecb(self, m):
+        ecb.delete_memoized()
+        rates = ecb()
+        self.assertEqual(rates, {'EUR': 0.625})
