@@ -1,5 +1,5 @@
 from controllers.base_ticker import BaseTicker
-from controllers.exchange_rates import openexchangerates
+from controllers.exchange_rates import openexchangerates, ecb
 
 
 class Binance(BaseTicker):
@@ -13,13 +13,15 @@ class Binance(BaseTicker):
         ('BTCRUB', 'BTC:RUB',),
         ('BTCGBP', 'BTC:GBP', ),
         ('BTCAUD', 'BTC:AUD', ),
-        ('BTCEUR', 'BTC:EUR',),
         ('BTCUSDT', 'BTC:GGT', 10),
-
         ('ETHBTC', 'ETH:BTC',),
         ('ETHEUR', 'ETH:EUR',),
         ('TRXBTC', 'TRX:BTC',),
         ('TRXUSDT', 'TRX:USD',),
+        ('TRXUSDT', 'TRX:EUR', ecb),
+        ('BTCUSDT', 'BTC:EUR', ecb),
+        ('ETHUSDT', 'ETH:EUR', ecb),
+
     )
 
     def __init__(self, fund_ids=fund_ids):
