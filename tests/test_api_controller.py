@@ -1,7 +1,7 @@
-import unittest
 import datetime
 import time
 import json
+
 from ticker.models import db
 from ticker.models import Ticker, Pair, Market
 from tests.base import BaseTestCase
@@ -147,59 +147,78 @@ class TestApiController(BaseTestCase):
         db.session.add(self.ticker8)
         db.session.commit()
 
-        # with self.app.app_context():
-
         self.api = PriceApi()
 
     def test_get_without_params_ok(self):
-        result = self.api.query()
+        result = self.api._query()
         self.assertEqual(result, [('BTC:USD', 400.00), ('ETH:USD', 150.0)])
 
     def test_get_timestamp_params_ok(self):
-        result = self.api.query(ts=self.midle_time)
+        result = self.api._query(ts=self.midle_time)
         self.assertEqual(result, [('BTC:USD', 312.50), ('ETH:USD', 125.0)])
 
     def test_get_pair_params_ok(self):
-        result = self.api.query(pair='BTC:USD')
+        result = self.api._query(pair='BTC:USD')
         self.assertEqual(result, [('BTC:USD', 400.0)])
 
     def test_get_pair_timestamp_params_ok(self):
-        result = self.api.query(pair='BTC:USD', ts=self.midle_time)
+        result = self.api._query(pair='BTC:USD', ts=self.midle_time)
         self.assertEqual(result, [('BTC:USD', 312.50)])
 
     def test_get_pair_params_not_ok(self):
-        result = self.api.query(pair='BBB:UUU')
+        result = self.api._query(pair='BBB:UUU')
         self.assertEqual(result, [])
 
     def test_get_pair_market_params_ok(self):
-        result = self.api.query(pair='BTC:USD', market=2)
-        result2 = self.api.query(pair='ETH:USD', market=2)
+        result = self.api._query(pair='BTC:USD', market=2)
+        result2 = self.api._query(pair='ETH:USD', market=2)
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
     def test_get_pair_market_params_string_ok(self):
-        result = self.api.query(pair='BTC:USD', market='2')
-        result2 = self.api.query(pair='ETH:USD', market='2')
+        result = self.api._query(pair='BTC:USD', market='2')
+        result2 = self.api._query(pair='ETH:USD', market='2')
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
     def test_get_pair_market_params_fail(self):
-        result = self.api.query(pair='BTC:USD', market=2000)
-        result2 = self.api.query(pair='ETH:USD', market=2000)
+        result = self.api._query(pair='BTC:USD', market=2000)
+        result2 = self.api._query(pair='ETH:USD', market=2000)
         self.assertEqual(result, [])
         self.assertEqual(result2, [])
 
     def test_get_pair_alias_market_params_ok(self):
-        result = self.api.query(pair='BTC:USD', market='alias2')
-        result2 = self.api.query(pair='ETH:USD', market='alias2')
+        result = self.api._query(pair='BTC:USD', market='alias2')
+        result2 = self.api._query(pair='ETH:USD', market='alias2')
         self.assertEqual(result, [('BTC:USD', 600.0)])
         self.assertEqual(result2, [('ETH:USD', 200.0)])
 
     def test_get_pair_alias_market_params_failk(self):
-        result = self.api.query(pair='BTC:USD', market='not_used_alias')
-        result2 = self.api.query(pair='ETH:USD', market='not_used_alias')
+        result = self.api._query(pair='BTC:USD', market='not_used_alias')
+        result2 = self.api._query(pair='ETH:USD', market='not_used_alias')
         self.assertEqual(result, [])
         self.assertEqual(result2, [])
+
+    def test_get_too_small_value(self):
+        pair3 = Pair(name='pair:name')
+        db.session.add(pair3)
+
+        self.ticker = Ticker(
+            date=self.datetime,
+            pair=pair3,
+            bid=0.000000000001,
+            ask=0.000000000001,
+            market=self.market
+
+        )
+        db.session.add(self.ticker)
+        db.session.commit()
+
+        result = self.api._query(pair='pair:name', format='string')
+        self.assertEqual(result, [('pair:name', '0.000000000001')])
+
+        result = self.api._query(pair='pair:name', format='float')
+        self.assertEqual(result, [('pair:name', 0.000000000001)])
 
     def test_response(self):
         response = self.client.get(
@@ -208,6 +227,14 @@ class TestApiController(BaseTestCase):
         )
         data_register = json.loads(response.data.decode())
         self.assertEqual(data_register, {'BTC:USD': 312.50})
+
+    def test_failed_response(self):
+        response = self.client.get(
+            '/api/v1/data/price',
+            query_string=dict(ts='wrong epoch time'),
+        )
+        data_register = json.loads(response.data.decode())
+        self.assertEqual(data_register, {'message': {'ts': 'Epoch time'}})
 
     def test_get_markets_list(self):
 
