@@ -1,5 +1,4 @@
 import os
-from controllers.tasks import save_ticker
 from ticker import create_app, make_celery
 
 env = os.environ.get('TICKER_ENV', 'prod')

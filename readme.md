@@ -94,7 +94,9 @@ sudo bash /home/deployer/ticker/restart.sh
 
 ## Usage
 ```html
-/api/v1/data/price?pair=BTC:USD&ts=1513888428&market=2
+/api/v1/data/price?pair=BTC:USD&ts=1513888428&market=2&format=string
+
+`format` = `string` or `float`. Default value is `float`
 ```
 all parameters are optional
 
