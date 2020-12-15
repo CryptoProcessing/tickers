@@ -4,23 +4,10 @@ from flask_restful import reqparse
 from sqlalchemy import String, Float
 
 from controllers.utils import get_version
-from flask import make_response, jsonify, Response
+from flask import make_response, jsonify, Response, request
 from flask.views import MethodView
 from ticker.models import Ticker, Pair, Market
 from sqlalchemy.sql import func
-
-
-parser = reqparse.RequestParser(bundle_errors=False)
-
-parser.add_argument('ts', location='args', help='Should be epoch time')
-parser.add_argument('pair', type=str, location='args', help='Should be string')
-parser.add_argument('market', location='args')
-parser.add_argument(
-    'format',
-    choices=('string', 'float'),
-    location='args',
-    help='Bad choice: {error_msg}'
-)
 
 
 class PriceApi(MethodView):
@@ -34,17 +21,13 @@ class PriceApi(MethodView):
         :return:
         """
 
-        from werkzeug import exceptions
+        query_string = request.args
 
-        try:
-            args = parser.parse_args(strict=True)
-        except exceptions.BadRequest as e:
-            return make_response(dict(e.data)), 400
+        ts = query_string.get('ts')
+        pair = query_string.get('pair')
+        market = query_string.get('market')
 
-        ts = args.get('ts')
-        pair = args.get('pair')
-        market = args.get('market')
-        format = args.get('format')
+        format = query_string.get('format')
 
         result = self._query(ts=ts, pair=pair, market=market, format=format)
 
