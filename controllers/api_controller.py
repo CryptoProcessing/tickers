@@ -12,7 +12,7 @@ from sqlalchemy.sql import func
 
 parser = reqparse.RequestParser(bundle_errors=False)
 
-parser.add_argument('ts', type=int, location='args', help='Should be epoch time')
+parser.add_argument('ts', location='args', help='Should be epoch time')
 parser.add_argument('pair', type=str, location='args', help='Should be string')
 parser.add_argument('market', location='args')
 parser.add_argument(
