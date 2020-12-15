@@ -234,7 +234,7 @@ class TestApiController(BaseTestCase):
             query_string=dict(ts='wrong epoch time'),
         )
         data_register = json.loads(response.data.decode())
-        self.assertEqual(data_register, {'message': {'ts': 'Epoch time'}})
+        self.assertEqual(data_register, {'message': {'ts': 'Should be epoch time'}})
 
     def test_get_markets_list(self):
 
