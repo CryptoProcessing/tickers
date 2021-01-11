@@ -21,6 +21,9 @@ class Binance(BaseTicker):
         ('TRXUSDT', 'TRX:EUR', ecb),
         ('BTCUSDT', 'BTC:EUR', ecb),
         ('ETHUSDT', 'ETH:EUR', ecb),
+        ('BTCDAI', 'BTC:DAI',),
+        ('BTCUSDC', 'BTC:USDC',),
+        ('ETHUSDC', 'ETH:USDC',),
 
     )
 
