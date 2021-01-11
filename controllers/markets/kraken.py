@@ -25,6 +25,10 @@ class Kraken(BaseTicker):
         ('TRXUSD', 'TRX:USD',),
         ('TRXUSD', 'TRX:EUR', ecb),
         ('XBTUSDT', 'BTC:EUR', ecb),
+        ('XBTDAI', 'BTC:DAI',),
+        ('XBTDAI', 'BTC:DAI',),
+        ('XBTUSDC', 'BTC:USDC',),
+        ('ETHUSDC', 'ETH:USDC',),
     )
 
     def __init__(self, fund_ids=fund_ids):
