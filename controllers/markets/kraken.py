@@ -26,7 +26,7 @@ class Kraken(BaseTicker):
         ('TRXUSD', 'TRX:EUR', ecb),
         ('XBTUSDT', 'BTC:EUR', ecb),
         ('XBTDAI', 'BTC:DAI',),
-        ('XBTDAI', 'BTC:DAI',),
+        ('ETHDAI', 'ETH:DAI',),
         ('XBTUSDC', 'BTC:USDC',),
         ('ETHUSDC', 'ETH:USDC',),
     )
