@@ -1,6 +1,5 @@
 import datetime
 
-from flask_restful import reqparse
 from sqlalchemy import String, Float
 
 from controllers.utils import get_version
@@ -26,7 +25,6 @@ class PriceApi(MethodView):
         ts = query_string.get('ts')
         pair = query_string.get('pair')
         market = query_string.get('market')
-
         format = query_string.get('format')
 
         result = self._query(ts=ts, pair=pair, market=market, format=format)
@@ -76,19 +74,30 @@ class PriceApi(MethodView):
                 .group_by(Ticker.market_id, Ticker.pair_id)
 
         from sqlalchemy.sql.expression import cast
-
-        result = Ticker \
-            .query \
-            .filter(Ticker.id.in_(max_ids)) \
-            .from_self() \
-            .join(Pair) \
-            .with_entities(
-            Pair.name,
-            cast(func.avg(Ticker.bid).label('avg'), String if format == 'string' else Float),
-        ) \
-            .group_by(Ticker.pair_id) \
-            .all()
-
+        if format == 'string':
+            result = Ticker \
+                .query \
+                .filter(Ticker.id.in_(max_ids)) \
+                .from_self() \
+                .join(Pair) \
+                .with_entities(
+                Pair.name,
+                cast(func.avg(Ticker.bid).label('avg'), String),
+            ) \
+                .group_by(Ticker.pair_id) \
+                .all()
+        else:
+            result = Ticker \
+                .query \
+                .filter(Ticker.id.in_(max_ids)) \
+                .from_self() \
+                .join(Pair) \
+                .with_entities(
+                Pair.name,
+                func.avg(Ticker.bid).label('avg'),
+            ) \
+                .group_by(Ticker.pair_id) \
+                .all()
         return result
 
     @staticmethod
