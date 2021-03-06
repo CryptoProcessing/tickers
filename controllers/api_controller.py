@@ -94,7 +94,7 @@ class PriceApi(MethodView):
         if pair:
             pair_data = Pair.query.filter_by(name=pair).all()
         else:
-            pair_data = Pair.query.all()
+            pair_data = Pair.query.filter_by(is_active=True).all()
         pair_ids = [p.id for p in pair_data]
         return pair_ids
 
