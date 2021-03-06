@@ -1,6 +1,5 @@
 import datetime
 from controllers.base_ticker import BaseTicker
-from controllers.exchange_rates import openexchangerates, ecb
 
 
 class Kraken(BaseTicker):
@@ -13,22 +12,9 @@ class Kraken(BaseTicker):
     # GGT  is token = 10$
     fund_ids = (
         ('XBTUSDT', 'BTC:USD'),
-        ('XXBTZGBP', 'BTC:GBP', ),
-        ('XBTUSDT', 'BTC:RUB', openexchangerates),
-        ('XBTAUD', 'BTC:AUD', ),
-        ('XBTUSDT', 'BTC:GGT', 10),
-        ('XETHXXBT', 'ETH:BTC'),
         ('XETHZUSD', 'ETH:USD'),
-        ('XETHZUSD', 'ETH:GGT', 10),
         ('LTCUSDT', 'LTC:USD'),
         ('TRXXBT', 'TRX:BTC',),
-        ('TRXUSD', 'TRX:USD',),
-        ('TRXUSD', 'TRX:EUR', ecb),
-        ('XBTUSDT', 'BTC:EUR', ecb),
-        ('XBTDAI', 'BTC:DAI',),
-        # ('ETHDAI', 'ETH:DAI',),
-        ('XBTUSDC', 'BTC:USDC',),
-        ('ETHUSDC', 'ETH:USDC',),
     )
 
     def __init__(self, fund_ids=fund_ids):

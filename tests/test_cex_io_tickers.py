@@ -45,10 +45,10 @@ class TestUtils(BaseTestCase):
     def test_map_fund_ok(self):
 
         mapped_fund = self.clsinst.map_fund('BTC:USD')
-        mapped_fund2 = self.clsinst.map_fund('ETH:BTC')
+        mapped_fund2 = self.clsinst.map_fund('ETH:USD')
 
         self.assertEqual(mapped_fund, 'BTC:USD')
-        self.assertEqual(mapped_fund2, 'ETH:BTC')
+        self.assertEqual(mapped_fund2, 'ETH:USD')
 
     def test_map_fund_not_found(self):
 
@@ -59,10 +59,10 @@ class TestUtils(BaseTestCase):
     def test_str_to_date_ok(self):
 
         mapped_fund = self.clsinst.map_fund('BTC:USD')
-        mapped_fund2 = self.clsinst.map_fund('ETH:BTC')
+        mapped_fund2 = self.clsinst.map_fund('ETH:USD')
 
         self.assertEqual(mapped_fund, 'BTC:USD')
-        self.assertEqual(mapped_fund2, 'ETH:BTC')
+        self.assertEqual(mapped_fund2, 'ETH:USD')
 
     def test_str_todate(self):
 

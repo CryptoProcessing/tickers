@@ -42,7 +42,7 @@ class PriceApi(MethodView):
             date = datetime.datetime.now()
 
         # ограничение снизу
-        min_date = date - datetime.timedelta(hours=10)
+        min_date = date - datetime.timedelta(hours=8)
 
         pair_ids = self._get_pair_ids(pair)
 
@@ -74,30 +74,19 @@ class PriceApi(MethodView):
                 .group_by(Ticker.market_id, Ticker.pair_id)
 
         from sqlalchemy.sql.expression import cast
-        if format == 'string':
-            result = Ticker \
-                .query \
-                .filter(Ticker.id.in_(max_ids)) \
-                .from_self() \
-                .join(Pair) \
-                .with_entities(
-                Pair.name,
-                cast(func.avg(Ticker.bid).label('avg'), String),
-            ) \
-                .group_by(Ticker.pair_id) \
-                .all()
-        else:
-            result = Ticker \
-                .query \
-                .filter(Ticker.id.in_(max_ids)) \
-                .from_self() \
-                .join(Pair) \
-                .with_entities(
-                Pair.name,
-                func.avg(Ticker.bid).label('avg'),
-            ) \
-                .group_by(Ticker.pair_id) \
-                .all()
+
+        result = Ticker \
+            .query \
+            .filter(Ticker.id.in_(max_ids)) \
+            .from_self() \
+            .join(Pair) \
+            .with_entities(
+            Pair.name,
+            cast(func.avg(Ticker.bid).label('avg'), String if format == 'string' else Float),
+        ) \
+            .group_by(Ticker.pair_id) \
+            .all()
+
         return result
 
     @staticmethod

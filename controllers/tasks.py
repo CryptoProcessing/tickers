@@ -2,14 +2,7 @@ import os
 
 from controllers.markets.binance import Binance
 from controllers.markets.kraken import Kraken
-from controllers.markets.therocktrading import Therocktrading
-from controllers.markets.gdax import Gdax
-from controllers.markets.bitfinex import Bitfinex
 from controllers.markets.cex_io import Cexio
-from controllers.markets.bitsmap_net import Bitsmap
-from controllers.markets.itbit_com import Itbit
-from controllers.markets.bisq_network import Bisq
-from controllers.markets.bitstamp import Bitstamp
 from ticker.extensions import sentry
 from ticker.models import Ticker, get_one_or_create, Market, Pair, db
 from ticker import make_celery, create_app
@@ -17,14 +10,7 @@ from ticker import make_celery, create_app
 #  add all tickers classes
 
 MAP_PROVIDER = {
-    'therocktrading.com': Therocktrading(),
-    'GDAX': Gdax(),
-    'bitfinex.com': Bitfinex(),
     'cex.io': Cexio(),
-    'bitsmap.net': Bitsmap(),
-    'itbit.com': Itbit(),
-    'bisq.network': Bisq(),
-    'bitstamp.net': Bitstamp(),
     'binance.com': Binance(),
     'kraken.com': Kraken(),
 }
