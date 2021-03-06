@@ -1,5 +1,6 @@
 import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
 
@@ -29,6 +30,7 @@ class Pair(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     ticker = db.relationship('Ticker', backref='pair', lazy=True)
+    is_active = db.Column(TINYINT, default=1)
 
     def __repr__(self):
         return self.name
