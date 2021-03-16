@@ -1,0 +1,30 @@
+---
+language: python
+python:
+  - "3.8"
+services:
+  - mysql
+branches:
+  only:
+    - master
+before_install:
+  - mysql -e 'CREATE DATABASE tickers_test;'
+  - python manage.py db init
+  - python manage.py db migrate
+install:
+  - pip install -r requirements.txt
+stages:
+  - name: tests
+    if: type = pull_request
+  - name: deploy
+    if: branch in (master) AND type != pull_request
+jobs:
+  include:
+    - stage: tests
+      name: "Test given pull-request"
+      script: |
+        python manage.py test
+    - stage: deploy
+      name: "Deploy code to target servers"
+      script: |
+        echo "And no deploy here yet"
