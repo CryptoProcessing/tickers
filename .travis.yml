@@ -14,10 +14,8 @@ before_install:
   - mysql -e "CREATE USER tickers@localhost IDENTIFIED BY 'tickers';"
   - mysql -e "GRANT ALL ON tickers.* TO tickers@localhost IDENTIFIED BY 'tickers';"
   - mysql -e "GRANT ALL ON tickers_test.* TO tickers@localhost IDENTIFIED BY 'tickers';"
-#  - rm -r -f ./migrations
 install:
   - pip install -r requirements.txt
-#  - python manage.py db init
   - python manage.py db upgrade
 stages:
   - name: tests
