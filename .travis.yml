@@ -4,15 +4,21 @@ python:
   - "3.8"
 services:
   - mysql
+  - redis-server
 branches:
   only:
     - master
 before_install:
-  - mysql -e 'CREATE DATABASE tickers_test;'
-  - python manage.py db init
-  - python manage.py db migrate
+  - mysql -e "CREATE DATABASE tickers;"
+  - mysql -e "CREATE DATABASE tickers_test;"
+  - mysql -e "CREATE USER tickers@localhost IDENTIFIED BY 'tickers';"
+  - mysql -e "GRANT ALL ON tickers.* TO tickers@localhost IDENTIFIED BY 'tickers';"
+  - mysql -e "GRANT ALL ON tickers_test.* TO tickers@localhost IDENTIFIED BY 'tickers';"
+#  - rm -r -f ./migrations
 install:
   - pip install -r requirements.txt
+#  - python manage.py db init
+  - python manage.py db upgrade
 stages:
   - name: tests
     if: type = pull_request
