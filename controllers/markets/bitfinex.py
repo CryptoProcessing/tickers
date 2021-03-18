@@ -54,8 +54,8 @@ class Bitfinex(BaseTicker):
 
     def str_to_date(self, strdate):
         try:
-            return datetime.datetime.fromtimestamp(float(strdate))
+            return datetime.datetime.utcfromtimestamp(float(strdate))
         except ValueError:
-            return datetime.datetime.now()
+            return datetime.datetime.utcnow()
 
 

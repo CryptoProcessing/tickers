@@ -68,4 +68,4 @@ class BaseTicker(metaclass=ABCMeta):
         try:
             return datetime.strptime(''.join(strdate.rsplit(':', 1)), self.date_fmt)
         except (ValueError, AttributeError):
-            return datetime.now()
+            return datetime.utcnow()

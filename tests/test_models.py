@@ -13,7 +13,7 @@ class TestModel(BaseTestCase):
         self.pair_name = 'BTC_USD'
         self.market_name = 'Best market in the world'
         self.datetimeformat = "%Y-%m-%d %H:%M:%S"
-        self.datetime = datetime.datetime.now().strftime(self.datetimeformat)
+        self.datetime = datetime.datetime.utcnow().strftime(self.datetimeformat)
 
         self.market = Market(
             name=self.market_name,

@@ -58,9 +58,9 @@ class Bitstamp(BaseTicker):
         :return:
         """
         try:
-            return datetime.datetime.fromtimestamp(float(strdate))
+            return datetime.datetime.utcfromtimestamp(float(strdate))
         except ValueError:
-            return datetime.datetime.now()
+            return datetime.datetime.utcnow()
 
 
 

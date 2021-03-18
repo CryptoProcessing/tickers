@@ -54,7 +54,7 @@ def mocked_requests_get_empty__dict_resp(*args, **kwargs):
     return MockResponse(None, 404)
 
 
-dtm = datetime.datetime.now()
+dtm = datetime.datetime.utcnow()
 
 
 class TestBisq(BaseTestCase):

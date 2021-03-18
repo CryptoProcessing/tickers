@@ -1,8 +1,11 @@
-import unittest
 from tests.base import BaseTestCase
 from controllers.markets import bitfinex
 from unittest.mock import patch
-from tests.response_mock.response_mock import bitfinex_response_btc_usd, bitfinex_response_eth_btc, bitfinex_expected_response
+from tests.response_mock.response_mock import (
+    bitfinex_response_btc_usd,
+    bitfinex_response_eth_btc,
+    bitfinex_expected_response,
+)
 
 
 class MockResponse:

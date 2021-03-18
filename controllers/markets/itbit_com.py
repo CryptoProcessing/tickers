@@ -45,6 +45,6 @@ class Itbit(BaseTicker):
         try:
             return datetime.datetime.strptime(strdate.rsplit('.', 1)[0], self.date_fmt)
         except ValueError:
-            return datetime.datetime.now()
+            return datetime.datetime.utcnow()
 
 

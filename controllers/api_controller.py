@@ -37,9 +37,9 @@ class PriceApi(MethodView):
         :return:
         """
         if ts:
-            date = datetime.datetime.utcfromtimestamp(float(ts))
+            date = datetime.datetime.fromtimestamp(float(ts))
         else:
-            date = datetime.datetime.now()
+            date = datetime.datetime.utcnow()
 
         # ограничение снизу
         min_date = date - datetime.timedelta(hours=8)

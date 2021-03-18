@@ -3,11 +3,11 @@ from datetime import datetime
 expected_response = [
     {'ask': 9468.36000000,
      'bid': 9468.36000000,
-     'date': datetime.now(),
+     'date': datetime.utcnow(),
      'fund_id': 'BTC:USD'},
     {'ask': 0.10184646,
      'bid': 0.10184646,
-     'date': datetime.now(),
+     'date': datetime.utcnow(),
      'fund_id': 'ETH:BTC'}
 ]
 

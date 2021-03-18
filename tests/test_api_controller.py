@@ -20,7 +20,7 @@ class TestApiController(BaseTestCase):
         self.market_name2 = '2nd best market in the world'
 
         self.datetimeformat = "%Y-%m-%d %H:%M:%S"
-        self.datetime = datetime.datetime.now().strftime(self.datetimeformat)
+        self.datetime = datetime.datetime.utcnow().strftime(self.datetimeformat)
 
         self.market = Market(
             name=self.market_name,
@@ -100,7 +100,7 @@ class TestApiController(BaseTestCase):
         db.session.commit()
 
         time.sleep(1)
-        self.midle_time = int(datetime.datetime.now().timestamp())
+        self.midle_time = int(datetime.datetime.utcnow().timestamp())
         time.sleep(1)
 
         self.ticker5 = Ticker(
@@ -228,14 +228,6 @@ class TestApiController(BaseTestCase):
         )
         data_register = json.loads(response.data.decode())
         self.assertEqual(data_register, {'BTC:USD': 312.50})
-
-    # def test_failed_response(self):
-    #     response = self.client.get(
-    #         '/api/v1/data/price',
-    #         query_string=dict(ts='wrong epoch time'),
-    #     )
-    #     data_register = json.loads(response.data.decode())
-    #     self.assertEqual(data_register, {'message': {'ts': 'Should be epoch time'}})
 
     def test_get_markets_list(self):
 

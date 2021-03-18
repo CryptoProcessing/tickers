@@ -50,7 +50,7 @@ class Kraken(BaseTicker):
         :param strdate:
         :return:
         """
-        return datetime.datetime.now()
+        return datetime.datetime.utcnow()
 
 
 
