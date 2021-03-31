@@ -31,7 +31,7 @@ jobs:
         python manage.py test
     - stage: deploy
       name: "Deploy code to target servers"
-      env: LIMIT=tickers
+      env: LIMIT=cryptoprocessing_ticker
       before_script: |
         echo "Checkout ansible controller repository"
         eval "$(ssh-agent -s)"
