@@ -15,6 +15,7 @@ before_install:
   - mysql -e "GRANT ALL ON tickers.* TO tickers@localhost IDENTIFIED BY 'tickers';"
   - mysql -e "GRANT ALL ON tickers_test.* TO tickers@localhost IDENTIFIED BY 'tickers';"
 install:
+  - pip install ansible==2.9.6
   - pip install -r requirements.txt
   - python manage.py db upgrade
 stages:
@@ -30,5 +31,22 @@ jobs:
         python manage.py test
     - stage: deploy
       name: "Deploy code to target servers"
+      env: LIMIT=cryptoprocessing_ticker
+      before_script: |
+        echo "Checkout ansible controller repository"
+        eval "$(ssh-agent -s)"
+        ssh-add <(echo "$MACHINE_GUNNER_PKEY")
+        export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        git clone --depth=1 git@github.com:oomag/ansible_controller.git
+        echo "Ensure roles needed for deploy"
+        pushd ansible_controller
+        ./tools/get-roles.sh tickers-roles.yml
+        echo "Ensure SSH key to login to target hosts"
+        export ANSIBLE_VAULT_PASSWORD_FILE=$(readlink -f ./tools/get-vault-pass)
+        ansible-playbook --limit $LIMIT --tags local -e @vars/extra.yaml run-ci-prerequisites.yml
+        for key in /tmp/.ssh/*; do
+          ssh-add $key
+        done
       script: |
-        echo "And no deploy here yet"
+        echo "Run deploy on $LIMIT nodes set"
+        ansible-playbook --limit $LIMIT -e @vars/extra.yaml run-tickers.yml
