@@ -61,8 +61,12 @@ class ProdConfig(Config, SchedulerConfig):
     }
     REQUEST_TIMEOUT = 5
 
-    SQLALCHEMY_POOL_RECYCLE = 299
     SQLALCHEMY_POOL_TIMEOUT = 20
+
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+    }
 
 
 class DevConfig(Config, SchedulerConfig):
