@@ -12,7 +12,6 @@ class SchedulerConfig:
                 'seconds': 300
             }
         }
-
     ]
 
     SCHEDULER_EXECUTORS = {
@@ -61,6 +60,11 @@ class ProdConfig(Config, SchedulerConfig):
         'release': raven.fetch_git_sha(os.path.dirname(__file__)),
     }
     REQUEST_TIMEOUT = 5
+
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+    }
 
 
 class DevConfig(Config, SchedulerConfig):
