@@ -1,6 +1,5 @@
 import datetime
 
-
 cexio_expected_response = [
     {'ask': 15188.52,
      'bid': 15163.64,

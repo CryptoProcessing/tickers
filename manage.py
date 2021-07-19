@@ -2,15 +2,14 @@
 
 import os
 import unittest
-from flask_script import Manager, Server
-from flask_migrate import Migrate, MigrateCommand
 
-from ticker import create_app
-from ticker.models import db
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager, Server
 
 from controllers.tasks import ticker_job
 from controllers.utils import get_version
-
+from ticker import create_app
+from ticker.models import db
 
 # default to dev config
 env = os.environ.get('TICKER_ENV', 'dev')

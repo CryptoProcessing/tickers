@@ -1,8 +1,11 @@
 import unittest
-from tests.base import BaseTestCase
-from controllers.markets import bitsmap_net
 from unittest.mock import patch
-from tests.response_mock.response_www_bitstamp_net import bitsmap_expected_response, bitsmap_response_btc_usd, bitsmap_response_eth_usd
+
+from controllers.markets import bitsmap_net
+from tests.base import BaseTestCase
+from tests.response_mock.response_www_bitstamp_net import (
+    bitsmap_expected_response, bitsmap_response_btc_usd,
+    bitsmap_response_eth_usd)
 
 ETH_USD_URL = 'https://www.bitstamp.net/api/v2/ticker/ethusd'
 BTC_USD_URL = 'https://www.bitstamp.net/api/v2/ticker/btcusd'

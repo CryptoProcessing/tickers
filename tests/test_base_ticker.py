@@ -1,9 +1,11 @@
-import requests
 from unittest.mock import patch
+
+import requests
+from tenacity import wait_none
+
+from controllers.exchange_rates import ecb, openexchangerates
 from controllers.markets import bitfinex
 from tests.base import BaseTestCase
-from tenacity import wait_none
-from controllers.exchange_rates import openexchangerates, ecb
 
 
 class MockResponse:

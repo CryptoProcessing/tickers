@@ -1,8 +1,8 @@
-import unittest
 import datetime
-from ticker.models import db
-from ticker.models import Ticker, Pair, Market
+import unittest
+
 from tests.base import BaseTestCase
+from ticker.models import Market, Pair, Ticker, db
 
 
 class TestModel(BaseTestCase):

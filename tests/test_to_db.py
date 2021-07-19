@@ -1,8 +1,9 @@
 import unittest
-from ticker.models import Pair, Market, Ticker
+
 from controllers.tasks import to_db
 from tests.base import BaseTestCase
 from tests.response_mock.response_mock import therock_expected_response
+from ticker.models import Market, Pair, Ticker
 
 
 class TestToDb(BaseTestCase):

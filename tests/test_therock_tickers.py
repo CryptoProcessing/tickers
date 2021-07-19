@@ -1,10 +1,11 @@
+import datetime
 import unittest
-from tests.base import BaseTestCase
+from unittest.mock import patch
 
 from controllers.markets import therocktrading
-from unittest.mock import patch
-from tests.response_mock.response_mock import therock_response, therock_expected_response
-import datetime
+from tests.base import BaseTestCase
+from tests.response_mock.response_mock import (therock_expected_response,
+                                               therock_response)
 
 
 class MockResponse:

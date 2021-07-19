@@ -1,4 +1,5 @@
 import datetime
+
 from controllers.base_ticker import BaseTicker
 
 
@@ -7,14 +8,18 @@ class Kraken(BaseTicker):
     https://api.kraken.com/0/public/Ticker pair = через запятую, перечень валютных пар для получения данных
     https://api.kraken.com/0/public/AssetPairs
     """
-    date_fmt = ''
+
+    date_fmt = ""
 
     # GGT  is token = 10$
     fund_ids = (
-        ('XBTUSDT', 'BTC:USD'),
-        ('XETHZUSD', 'ETH:USD'),
-        ('LTCUSDT', 'LTC:USD'),
-        ('TRXXBT', 'TRX:BTC',),
+        ("XBTUSDT", "BTC:USD"),
+        ("XETHZUSD", "ETH:USD"),
+        ("LTCUSDT", "LTC:USD"),
+        (
+            "TRXXBT",
+            "TRX:BTC",
+        ),
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -24,19 +29,19 @@ class Kraken(BaseTicker):
     def get_ticker_info(self):
         data = []
         for fund in self.fund_id:
-            url = 'https://api.kraken.com/0/public/Ticker?pair={}'.format(fund[0])
+            url = "https://api.kraken.com/0/public/Ticker?pair={}".format(fund[0])
 
             req_json = self.make_request(url)
 
             if not req_json:
                 continue
             try:
-                pair = req_json['result'][fund[0]]
+                pair = req_json["result"][fund[0]]
                 fund_data = {
-                    'ask': float(pair['a'][0]) * self.factor(fund),
-                    'bid': float(pair['b'][0]) * self.factor(fund),
-                    'date': self.str_to_date(''),
-                    'fund_id': fund[1],
+                    "ask": float(pair["a"][0]) * self.factor(fund),
+                    "bid": float(pair["b"][0]) * self.factor(fund),
+                    "date": self.str_to_date(""),
+                    "fund_id": fund[1],
                 }
 
                 data.append(fund_data)
@@ -51,6 +56,3 @@ class Kraken(BaseTicker):
         :return:
         """
         return datetime.datetime.utcnow()
-
-
-

@@ -1,22 +1,22 @@
 import os
 
 from controllers.markets.binance import Binance
-from controllers.markets.kraken import Kraken
 from controllers.markets.cex_io import Cexio
+from controllers.markets.kraken import Kraken
+from ticker import create_app, make_celery
 from ticker.extensions import sentry
-from ticker.models import Ticker, get_one_or_create, Market, Pair, db
-from ticker import make_celery, create_app
+from ticker.models import Market, Pair, Ticker, db, get_one_or_create
 
 #  add all tickers classes
 
 MAP_PROVIDER = {
-    'cex.io': Cexio(),
-    'binance.com': Binance(),
-    'kraken.com': Kraken(),
+    "cex.io": Cexio(),
+    "binance.com": Binance(),
+    "kraken.com": Kraken(),
 }
 
-env = os.environ.get('TICKER_ENV', 'prod')
-app = create_app('config.%sConfig' % env.capitalize(), register_blueprints=False)
+env = os.environ.get("TICKER_ENV", "prod")
+app = create_app("config.%sConfig" % env.capitalize(), register_blueprints=False)
 
 celery = make_celery(app)
 
@@ -33,7 +33,7 @@ def save_ticker(mp):
         market_alias = provider.get_class_name()
         ticker_data = provider.get_tickers()
         to_db(market=mp, market_alias=market_alias, data=ticker_data)
-    except Exception as e:
+    except Exception:
         sentry.captureException()
 
 
@@ -48,22 +48,15 @@ def to_db(market, market_alias, data):
     for d in data:
         with db.app.app_context():
             market_db, _ = get_one_or_create(db.session, Market, name=market, alias=market_alias)
-            pair_db, _ = get_one_or_create(db.session, Pair, name=d['fund_id'])
+            pair_db, _ = get_one_or_create(db.session, Pair, name=d["fund_id"])
 
-            ticker = Ticker(
-                date=d['date'],
-                pair=pair_db,
-                bid=d['bid'],
-                ask=d['ask'],
-                market=market_db
-            )
+            ticker = Ticker(date=d["date"], pair=pair_db, bid=d["bid"], ask=d["ask"], market=market_db)
 
             db.session.add(ticker)
             db.session.commit()
 
 
 class InfoProvider:
-
     def __init__(self, resource):
         self.resource = resource
 
@@ -71,7 +64,7 @@ class InfoProvider:
         factory = None
         try:
             factory = MAP_PROVIDER.get(resource)
-        except KeyError as e:
+        except KeyError:
             sentry.captureException()
         return factory
 
@@ -85,8 +78,3 @@ class InfoProvider:
         factory = MAP_PROVIDER.get(self.resource)
         class_name = factory.__class__.__name__
         return class_name.lower()
-
-
-
-
-

@@ -9,15 +9,26 @@ class Therocktrading(BaseTicker):
 
     # GGT  is token = 1$
     fund_ids = (
-        ('BTCUSD', 'BTC:USD',),
-        ('BTCUSD', 'BTC:RUB', openexchangerates),
-        ('BTCUSD', 'BTC:GBP', openexchangerates),
-        ('BTCUSD', 'BTC:AUD', openexchangerates),
-        ('BTCEUR', 'BTC:EUR',),
-        ('BTCUSD', 'BTC:GGT', 10),
-
-        ('ETHBTC', 'ETH:BTC',),
-        ('ETHEUR', 'ETH:EUR',)
+        (
+            "BTCUSD",
+            "BTC:USD",
+        ),
+        ("BTCUSD", "BTC:RUB", openexchangerates),
+        ("BTCUSD", "BTC:GBP", openexchangerates),
+        ("BTCUSD", "BTC:AUD", openexchangerates),
+        (
+            "BTCEUR",
+            "BTC:EUR",
+        ),
+        ("BTCUSD", "BTC:GGT", 10),
+        (
+            "ETHBTC",
+            "ETH:BTC",
+        ),
+        (
+            "ETHEUR",
+            "ETH:EUR",
+        ),
     )
 
     def __init__(self, fund_ids=fund_ids):
@@ -25,7 +36,7 @@ class Therocktrading(BaseTicker):
         self.fund_id = fund_ids
 
     def get_ticker_info(self):
-        url = 'https://api.therocktrading.com/v1/funds/tickers'
+        url = "https://api.therocktrading.com/v1/funds/tickers"
 
         req_json = self.make_request(url)
 
@@ -38,20 +49,20 @@ class Therocktrading(BaseTicker):
         for lf in list_fund_id:
             try:
                 fund_data = [
-                    {'ask': f['ask'] * self.factor(lf),
-                     'bid': f['bid'] * self.factor(lf),
-                     'date': self.str_to_date(f['date']),
-                     'fund_id':lf[1],
-                       }
-                    for f in req_json['tickers'] if f['fund_id'] in [lf[0]]
+                    {
+                        "ask": f["ask"] * self.factor(lf),
+                        "bid": f["bid"] * self.factor(lf),
+                        "date": self.str_to_date(f["date"]),
+                        "fund_id": lf[1],
+                    }
+                    for f in req_json["tickers"]
+                    if f["fund_id"] in [lf[0]]
                 ]
 
                 data.extend(fund_data)
             except KeyError:
                 pass
         return data
-    
+
     def str_to_date(self, strdate):
         return super(Therocktrading, self).str_to_date(strdate)
-
-

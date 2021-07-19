@@ -1,10 +1,11 @@
+import datetime
 import unittest
-from tests.base import BaseTestCase
+from unittest.mock import patch
 
 from controllers.markets import itbit_com
-from unittest.mock import patch
-from tests.response_mock.response_itbit_com import itbit_expected_response, itbit_response_btc_usd
-import datetime
+from tests.base import BaseTestCase
+from tests.response_mock.response_itbit_com import (itbit_expected_response,
+                                                    itbit_response_btc_usd)
 
 BTC_USD_URL = 'https://api.itbit.com/v1/markets/XBTUSD/ticker'
 

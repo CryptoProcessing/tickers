@@ -1,9 +1,11 @@
 import unittest
-from tests.base import BaseTestCase
+from unittest.mock import patch
 
 from controllers.markets import gdax
-from unittest.mock import patch
-from tests.response_mock.response_mock import gdax_response_btc_usd, gdax_response_eth_btc, gdax_expected_response
+from tests.base import BaseTestCase
+from tests.response_mock.response_mock import (gdax_expected_response,
+                                               gdax_response_btc_usd,
+                                               gdax_response_eth_btc)
 
 
 class MockResponse:

@@ -1,6 +1,5 @@
 import datetime
 
-
 ######### bitfinex #########
 bitfinex_response_btc_usd = {
     "mid": "13132.0",

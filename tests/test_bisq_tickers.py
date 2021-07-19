@@ -1,9 +1,11 @@
-import unittest
-from tests.base import BaseTestCase
-from controllers.markets import bisq_network
-from unittest.mock import patch, Mock
-from tests.response_mock.response_bisq_network import response_btc_usd, response_eth_btc
 import datetime
+import unittest
+from unittest.mock import Mock, patch
+
+from controllers.markets import bisq_network
+from tests.base import BaseTestCase
+from tests.response_mock.response_bisq_network import (response_btc_usd,
+                                                       response_eth_btc)
 
 ETH_BTC_URL = 'https://markets.bisq.network/api/ticker?market=eth_btc'
 BTC_USD_URL = 'https://markets.bisq.network/api/ticker?market=btc_usd'

@@ -1,11 +1,10 @@
 import datetime
-import time
 import json
+import time
 
-from ticker.models import db
-from ticker.models import Ticker, Pair, Market
-from tests.base import BaseTestCase
 from controllers.api_controller import PriceApi
+from tests.base import BaseTestCase
+from ticker.models import Market, Pair, Ticker, db
 
 
 class TestApiController(BaseTestCase):

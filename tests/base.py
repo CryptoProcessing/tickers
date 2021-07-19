@@ -1,7 +1,9 @@
 import os
+
 from flask_testing import TestCase
-from ticker.models import db
+
 from ticker import create_app
+from ticker.models import db
 
 
 class BaseTestCase(TestCase):

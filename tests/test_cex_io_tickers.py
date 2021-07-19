@@ -1,10 +1,11 @@
+import datetime
 import unittest
-from tests.base import BaseTestCase
+from unittest.mock import patch
 
 from controllers.markets import cex_io
-from unittest.mock import patch
-from tests.response_mock.response_mock_cex import cexio_response, cexio_expected_response
-import datetime
+from tests.base import BaseTestCase
+from tests.response_mock.response_mock_cex import (cexio_expected_response,
+                                                   cexio_response)
 
 
 class MockResponse:
